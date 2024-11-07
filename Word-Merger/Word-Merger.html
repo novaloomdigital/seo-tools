@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Word Merger</title>
+    <style>
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    textarea{
+        height: 10rem;
+        width: 20rem;
+        font-size: 20px;
+    }
+    .btn{
+        display: flex;
+        margin-top: 3rem;
+    }
+    button{
+        padding: 10px 26px;
+        border-radius: 4rem;
+        margin-right: 1rem;
+        font-size: 20px;
+    }
+    p{
+        font-size: 22px;
+    }
+    </style>
+</head>
+<body>
+    <h2>Word Merger</h2>
+    <div>
+        <textarea type="text" id="inputText1"></textarea>
+        <textarea type="text" id="inputText2"></textarea>
+        <textarea type="text" id="inputText3"></textarea>
+        <textarea type="text" id="outputText" readonly></textarea>
+    </div>
+    <div class="btn">
+        <button onclick="Merger()">Result</button>
+    </div>
+    <p>Add one word in each box</p>
+    <script>
+        function Merger() {
+            let text1 = document.getElementById("inputText1").value;
+            let text2 = document.getElementById("inputText2").value;
+            let text3 = document.getElementById("inputText3").value;
+            let wordMerge = text1 + " " + text2 + " " + text3;
+            document.getElementById("outputText").value = `Word Merge: ${wordMerge}`;
+        }
+    </script>
+</body>
+</html>
