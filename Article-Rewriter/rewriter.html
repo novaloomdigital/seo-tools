@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Article Rewriter Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .input-section, .output-section {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .stats {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .synonym-panel {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Article Rewriter</h1>
+        
+        <div class="input-section">
+            <h3>Original Article</h3>
+            <textarea id="originalText" placeholder="Paste your article here..."></textarea>
+            
+            <div class="buttons">
+                <button onclick="rewriteArticle()">Rewrite Article</button>
+                <button onclick="clearText()">Clear</button>
+                <button onclick="importFile()">Import File</button>
+            </div>
+        </div>
+
+        <div class="output-section">
+            <h3>Rewritten Article</h3>
+            <textarea id="rewrittenText" readonly></textarea>
+            
+            <div class="buttons">
+                <button onclick="copyText()">Copy Text</button>
+                <button onclick="exportText()">Export Text</button>
+            </div>
+            
+            <div class="stats" id="statsContainer"></div>
+        </div>
+
+        <div class="synonym-panel">
+            <h3>Synonym Suggestions</h3>
+            <div id="synonymContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Synonym Dictionary
+        const synonyms = {
+            'happy': ['joyful', 'delighted', 'pleased', 'content'],
+            'big': ['large', 'huge', 'enormous', 'massive'],
+            'walk': ['stroll', 'stride', 'amble', 'wander'],
+            'said': ['mentioned', 'stated', 'explained', 'remarked'],
+            'good': ['excellent', 'great', 'wonderful', 'fantastic']
+        };
+
+        function rewriteArticle() {
+            const originalText = document.getElementById('originalText').value;
+            if (!originalText.trim()) {
+                alert('Please enter text to rewrite');
+                return;
+            }
+
+            let rewrittenText = originalText;
+            const words = originalText.split(/\s+/);
+
+            // Rewriting strategy
+            words.forEach((word, index) => {
+                const lowerWord = word.toLowerCase();
+                if (synonyms[lowerWord]) {
+                    const synonym = getSynonym(lowerWord);
+                    words[index] = synonym;
+                }
+            });
+
+            rewrittenText = words.join(' ');
+
+            // Additional rewriting techniques
+            rewrittenText = paraphraseText(rewrittenText);
+
+            document.getElementById('rewrittenText').value = rewrittenText;
+            updateStats(originalText, rewrittenText);
+            showSynonymSuggestions(originalText);
+        }
+
+        function getSynonym(word) {
+            const synonymList = synonyms[word];
+            return synonymList 
+                ? synonymList[Math.floor(Math.random() * synonymList.length)]
+                : word;
+        }
+
+        function paraphraseText(text) {
+            // Advanced paraphrasing techniques
+            const phraseMappings = {
+                'in order to': 'to',
+                'due to the fact that': 'because',
+                'at the present time': 'now'
+            };
+
+            Object.entries(phraseMappings).forEach(([original, replacement]) => {
+                text = text.replace(new RegExp(original, 'gi'), replacement);
+            });
+
+            return text;
+        }
+
+        function updateStats(original, rewritten) {
+            const statsContainer = document.getElementById('statsContainer');
+            const originalWords = original.split(/\s+/).length;
+            const rewrittenWords = rewritten.split(/\s+/).length;
+            const uniqueness = ((rewrittenWords / originalWords) * 100).toFixed(2);
+
+            statsContainer.innerHTML = `
+                Original Words: ${originalWords}<br>
+                Rewritten Words: ${rewrittenWords}<br>
+                Uniqueness: ${uniqueness}%
+            `;
+        }
+
+        function showSynonymSuggestions(text) {
+            const synonymContainer = document.getElementById('synonymContainer');
+            const words = text.split(/\s+/);
+            let suggestions = '';
+
+            words.forEach(word => {
+                const lowerWord = word.toLowerCase();
+                if (synonyms[lowerWord]) {
+                    suggestions += `
+                        <div>
+                            <strong>${word}</strong>: 
+                            ${synonyms[lowerWord].join(', ')}
+                        </div>
+                    `;
+                }
+            });
+
+            synonymContainer.innerHTML = suggestions;
+        }
+
+        function copyText() {
+            const rewrittenText = document.getElementById('rewrittenText');
+            rewrittenText.select();
+            document.execCommand('copy');
+            alert('Text copied to clipboard!');
+        }
+
+        function clearText() {
+            document.getElementById('originalText').value = '';
+            document.getElementById('rewrittenText').value = '';
+            document.getElementById('statsContainer').innerHTML = '';
+            document.getElementById('synonymContainer').innerHTML = '';
+        }
+
+        function importFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = readerEvent => {
+                    document.getElementById('originalText').value = readerEvent.target.result;
+                };
+            };
+            input.click();
+        }
+
+        function exportText() {
+            const rewrittenText = document.getElementById('rewrittenText').value;
+            const blob = new Blob([rewrittenText], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'rewritten_article.txt';
+            a.click();
+        }
+    </script>
+</body>
+</html>

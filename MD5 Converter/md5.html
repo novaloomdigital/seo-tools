@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD5 Converter SEO Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .input-group, .output-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .copy-btn {
+            background-color: #008CBA;
+        }
+        .clear-btn {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MD5 Converter SEO Tool</h1>
+        
+        <div class="input-group">
+            <h3>Input Text</h3>
+            <textarea id="input-text" placeholder="Enter text to convert to MD5..."></textarea>
+            <button onclick="convertToMD5()">Convert to MD5</button>
+            <button class="clear-btn" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div class="output-group">
+            <h3>MD5 Hash Result</h3>
+            <div id="result" class="result"></div>
+            <button class="copy-btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function convertToMD5() {
+            const inputText = document.getElementById('input-text').value;
+            if (!inputText.trim()) {
+                alert('Please enter some text to convert');
+                return;
+            }
+
+            const lines = inputText.split('\n');
+            let results = [];
+
+            lines.forEach(line => {
+                if (line.trim()) {
+                    const md5Hash = CryptoJS.MD5(line.trim()).toString();
+                    results.push({
+                        original: line.trim(),
+                        md5: md5Hash
+                    });
+                }
+            });
+
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            const resultDiv = document.getElementById('result');
+            let html = '<table style="width:100%; border-collapse: collapse;">';
+            html += '<tr><th style="text-align:left; padding:8px;">Original Text</th><th style="text-align:left; padding:8px;">MD5 Hash</th></tr>';
+            
+            results.forEach(result => {
+                html += `
+                    <tr>
+                        <td style="border:1px solid #ddd; padding:8px;">${result.original}</td>
+                        <td style="border:1px solid #ddd; padding:8px;">${result.md5}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            resultDiv.innerHTML = html;
+        }
+        function copyToClipboard() {
+            const resultDiv = document.getElementById('result');
+            if (!resultDiv.textContent) {
+                alert('No results to copy');
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = resultDiv.textContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('Results copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy to clipboard');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        function clearAll() {
+            document.getElementById('input-text').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('input-text').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        }
+    </script>
+</body>
+</html>
