@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Grammar Checker</h2>
+        <div class="input-group">
+            <textarea id="inputText" rows="10" cols="50"></textarea>
+        </div>
+        <button onclick="checkGrammar()">Check Grammar</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function checkGrammar() {
+            const text = document.getElementById('inputText').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            const errors = checkForErrors(text);
+            displayResults(errors);
+        }
+
+        function checkForErrors(text) {
+            const errors = [];
+            const sentences = text.split('. ');
+
+            sentences.forEach(sentence => {
+                if (!sentence.endsWith('.') && !sentence.endsWith('') && !sentence.endsWith('?')) {
+                    errors.push(`Sentence missing punctuation: ${sentence}`);
+                }
+
+                if (!sentence.toUpperCase() === sentence) {
+                    errors.push(`Capitalization error: ${sentence}`);
+                }
+
+                const words = sentence.split(' ');
+                words.forEach((word, index) => {
+                    if (index === 0 && word !== word.charAt(0).toUpperCase() + word.slice(1)) {
+                        errors.push(`Capitalization error at the start of the sentence: ${word}`);
+                    }
+                });
+            });
+
+            return errors;
+        }
+
+        function displayResults(errors) {
+            const resultsDiv = document.getElementById('results');
+            if (errors.length === 0) {
+                resultsDiv.innerHTML = '<p>No grammatical errors found.</p>';
+            } else {
+                errors.forEach(error => {
+                    resultsDiv.innerHTML += `<p>${error}</p>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

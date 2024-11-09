@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paraphrasing Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Paraphrasing Tool</h2>
+        <div class="input-group">
+            <textarea id="inputText" rows="10" cols="50"></textarea>
+        </div>
+        <button onclick="paraphraseText()">Paraphrase</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+           const synonyms = {
+             'the': ['a', 'an'],
+             'and': ['or', 'but'],
+             'is': ['was', 'were', 'are', 'be'],
+             'was': ['is', 'were', 'are', 'be'],
+             'were': ['is', 'was', 'are', 'be'],
+             'are': ['is', 'was', 'were', 'be'],
+             'be': ['is', 'was', 'were', 'are'],
+             'have': ['has', 'had'],
+             'has': ['have', 'had'],
+             'had': ['have', 'has'],
+             'do': ['does', 'did'],
+             'does': ['do', 'did'],
+             'did': ['do', 'does'],
+             'get': ['got', 'gotten'],
+             'got': ['get', 'gotten'],
+             'gotten': ['get', 'got'],
+             'make': ['made', 'made'],
+             'made': ['make', 'made'],
+          };
+
+         function paraphraseTextBasic() {
+             const text = document.getElementById('inputText').value;
+             const resultsDiv = document.getElementById('results');
+             resultsDiv.innerHTML = ''; 
+
+             const words = text.split(' ');
+             const paraphrasedWords = [];
+
+             words.forEach(word => {
+                 if (synonyms[word.toLowerCase()]) {
+                    const synonym = synonyms[word.toLowerCase()][Math.floor(Math.random() * synonyms[word.toLowerCase()].length)];
+                    paraphrasedWords.push(synonym);
+                 } else {
+                     paraphrasedWords.push(word);
+              }
+         });
+
+        const paraphrasedText = paraphrasedWords.join(' ');
+        resultsDiv.innerHTML = `<p>Paraphrased Text:</p><p>${paraphrasedText}</p>`;
+}
+
+
+        document.querySelector('button').onclick = paraphraseTextBasic;
+    </script>
+</body>
+</html>

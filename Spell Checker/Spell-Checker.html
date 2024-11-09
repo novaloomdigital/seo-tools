@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spell Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Spell Checker</h2>
+        <div class="input-group">
+            <textarea id="inputText" rows="10" cols="50"></textarea>
+        </div>
+        <button onclick="checkSpelling()">Check Spelling</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const dictionary = [
+            "hello", "world", "javascript", "spell", "checker",
+            "example", "dictionary", "the", "quick", "brown",
+            "fox", "jumps", "over", "lazy", "dog"
+        ];
+
+        function checkSpelling() {
+            const text = document.getElementById('inputText').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            const words = text.split(/\s+/);
+            const errors = [];
+
+            words.forEach(word => {
+                const cleanWord = word.replace(/[^\w\s]/gi, '').toLowerCase();
+                if (!dictionary.includes(cleanWord)) {
+                    errors.push(word);
+                }
+            });
+
+            displayResults(errors);
+        }
+
+        function displayResults(errors) {
+            const resultsDiv = document.getElementById('results');
+            if (errors.length === 0) {
+                resultsDiv.innerHTML = '<p>No spelling errors found.</p>';
+            } else {
+                resultsDiv.innerHTML = '<p>Spelling errors found:</p>';
+                errors.forEach(error => {
+                    resultsDiv.innerHTML += `<p class="error">${error}</p>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
