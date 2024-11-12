@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Changer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        .output-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Changer</h1>
+    <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+    <button onclick="changeWords()">Change Words</button>
+    <div class="output-container">
+        <h3>Changed Text:</h3>
+        <p id="changedText"></p>
+    </div>
+
+    <script>
+        // Word mappings (you can expand this as needed)
+        const wordMappings = {
+            'happy': 'joyful',
+            'big': 'large',
+            'small': 'tiny',
+            'walk': 'stroll',
+            'say': 'mention',
+            'good': 'excellent',
+            'bad': 'terrible',
+        };
+
+        function changeWords() {
+            const inputText = document.getElementById('inputText').value;
+            let changedText = inputText;
+
+            // Replace words based on the mappings
+            Object.keys(wordMappings).forEach(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                changedText = changedText.replace(regex, wordMappings[word]);
+            });
+
+            // Display the changed text
+            document.getElementById('changedText').innerText = changedText;
+        }
+    </script>
+</body>
+</html>
