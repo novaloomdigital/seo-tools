@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image to Text Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        #inputImage {
+            display: block;
+            margin-top: 10px;
+        }
+        .output-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image to Text Converter</h1>
+    <div class="input-container">
+        <input type="file" id="imageInput" accept="image/*">
+        <img id="inputImage" alt="Uploaded Image" width="300">
+    </div>
+    <button onclick="convertImageToText()">Convert Image to Text</button>
+    <div class="output-container">
+        <h3>Extracted Text:</h3>
+        <p id="outputText"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.0/dist/tesseract.min.js"></script>
+    <script>
+        function convertImageToText() {
+            const imageInput = document.getElementById('imageInput');
+            const file = imageInput.files[0];
+
+            if (!file) {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            // Display the uploaded image
+            const img = document.getElementById('inputImage');
+            img.src = URL.createObjectURL(file);
+
+            // Initialize Tesseract
+            Tesseract.recognize(
+                file,
+                'eng',
+                {
+                    logger: m => console.log(m)
+                }
+            ).then(({ data: { text } }) => {
+                // Display the extracted text
+                document.getElementById('outputText').textContent = text;
+            }).catch(err => {
+                console.error(err);
+                alert('An error occurred while converting the image to text.');
+            });
+        }
+    </script>
+</body>
+</html>

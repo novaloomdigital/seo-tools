@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plagiarism Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        .output-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Plagiarism Checker</h1>
+    <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+    <button onclick="checkPlagiarism()">Check Plagiarism</button>
+    <div class="output-container">
+        <h3>Plagiarism Report:</h3>
+        <p id="plagiarismReport"></p>
+    </div>
+
+    <script>
+        // Sample database of existing texts (in a real application, this would be more extensive)
+        const textDatabase = [
+            "The quick brown fox jumps over the lazy dog.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "To be or not to be, that is the question.",
+            "All that glitters is not gold."
+        ];
+
+        function checkPlagiarism() {
+            const inputText = document.getElementById('inputText').value;
+            const words = inputText.split(/\s+/);
+
+            let report = "Plagiarism Report:\n\n";
+            let isPlagiarized = false;
+
+            textDatabase.forEach((text, index) => {
+                const textWords = text.split(/\s+/);
+                const commonWords = words.filter(word => textWords.includes(word));
+
+                if (commonWords.length > 0) {
+                    isPlagiarized = true;
+                    report += `Text ${index + 1}: ${commonWords.length}/${textWords.length} common words\n`;
+                }
+            });
+
+            if (!isPlagiarized) {
+                report += "No plagiarism detected.";
+            }
+
+            document.getElementById('plagiarismReport').innerText = report;
+        }
+    </script>
+</body>
+</html>

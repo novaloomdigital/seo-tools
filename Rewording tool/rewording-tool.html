@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Rewording Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1> Rewording Tool</h1>
+    <textarea id="originalText" placeholder="Enter your text here..."></textarea>
+    <button onclick="rewordText()">Reword</button>
+    <div>
+        <h3> Reworded Text:</h3>
+        <p id="rewordedText"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/compromise@14.10.0/builds/compromise.min.js"></script>
+    <script>
+        const synonyms = {
+            'happy': ['joyful', 'delighted', 'pleased'],
+            'big': ['large', 'enormous', 'substantial'],
+            'small': ['tiny', 'little', 'miniature'],
+            'walk': ['stroll', 'stride', 'amble'],
+            'say': ['mention', 'state', 'declare']
+        };
+
+        function rewordText() {
+            const originalText = document.getElementById('originalText').value;
+            
+            const doc = nlp(originalText);
+
+            const rewordedText = rewordWithSynonyms(doc);
+
+            document.getElementById('rewordedText').innerText = rewordedText;
+        }
+
+        function rewordWithSynonyms(doc) {
+            let text = doc.text();
+
+            const words = text.split(/\s+/);
+
+            const rewordedWords = words.map(word => {
+                const lowerWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+                
+                if (synonyms[lowerWord]) {
+                    const wordSynonyms = synonyms[lowerWord];
+                    const randomSynonym = wordSynonyms[Math.floor(Math.random() * wordSynonyms.length)];
+
+                    return word[0] === word[0].toUpperCase() 
+                        ? randomSynonym.charAt(0).toUpperCase() + randomSynonym.slice(1)
+                        : randomSynonym;
+                }
+
+                return word;
+            });
+
+            return rewordedWords.join(' ');
+        }
+
+        function advancedReword(text) {
+            return text
+                .replace(/\b(very)\b/gi, 'extremely')
+                .replace(/\b(really)\b/gi, 'incredibly');
+        }
+
+        function reorderSentences(text) {
+            const sentences = text.split('. ');
+
+            for (let i = sentences.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [sentences[i], sentences[j]] = [sentences[j], sentences[i]];
+            }
+
+            return sentences.join('. ');
+        }
+
+        function reorderWords(text) {
+            const words = text.split(' ');
+
+            for (let i = words.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [words[i], words[j]] = [words[j], words[i]];
+            }
+
+            return words.join(' ');
+        }
+    </script>
+</body>
+</html>
