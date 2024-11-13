@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Summarizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .controls input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #summaryOutput {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            min-height: 100px;
+        }
+        .summary-stats {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Summarizer</h1>
+        
+        <div class="controls">
+            <input 
+                type="number" 
+                id="summaryLength" 
+                placeholder="Summary Length (%)" 
+                min="10" 
+                max="90" 
+                value="30"
+            >
+            <select id="summaryType">
+                <option value="extractive">Extractive Summary</option>
+                <option value="abstractive">Abstractive Summary</option>
+            </select>
+        </div>
+
+        <textarea 
+            id="inputText" 
+            placeholder="Enter your text here... (Minimum 100 words recommended)"
+        ></textarea>
+        
+        <button onclick="summarizeText()">Generate Summary</button>
+        
+        <div class="output-container">
+            <h3>Summary:</h3>
+            <div id="summaryOutput"></div>
+            <div id="summaryStats" class="summary-stats"></div>
+        </div>
+    </div>
+
+    <script>
+        const summarizeText = () => {
+            const inputText = document.getElementById('inputText').value;
+            const summaryLength = document.getElementById('summaryLength').value / 100;
+            const summaryType = document.getElementById('summaryType').value;
+
+            // Validate input
+            if (inputText.trim().length < 100) {
+                alert('Please enter at least 100 words for a meaningful summary.');
+                return;
+            }
+
+            // Different summarization techniques
+            let summary;
+            if (summaryType === 'extractive') {
+                summary = extractiveSummarization(inputText, summaryLength);
+            } else {
+                summary = abstractiveSummarization(inputText, summaryLength);
+            }
+
+            // Display summary
+            document.getElementById('summaryOutput').innerText = summary;
+
+            // Calculate and display summary stats
+            calculateSummaryStats(inputText, summary);
+        }
+
+        function extractiveSummarization(text, summaryLength) {
+            // Split text into sentences
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+            
+            // Calculate sentence scores based on word frequency
+            const wordFrequency = calculateWordFrequency(text);
+            const sentenceScores = sentences.map(sentence => {
+                const words = sentence.toLowerCase().split(/\s+/);
+                const score = words.reduce((total, word) => {
+                    return total + (wordFrequency[word] || 0);
+                }, 0);
+                return { sentence, score };
+            });
+
+            // Sort sentences by score
+            sentenceScores.sort((a, b) => b.score - a.score);
+
+            // Select top sentences based on summary length
+            const summaryLength1 = Math.max(1, Math.floor(sentences.length * summaryLength));
+            const topSentences = sentenceScores
+                .slice(0, summaryLength)
+                .sort((a, b) => sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence))
+                .map(item => item.sentence);
+
+            return topSentences.join(' ');
+        }
+
+        function calculateWordFrequency(text) {
+            const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+            const frequency = {};
+            
+            words.forEach(word => {
+                // Ignore common stop words
+                const stopWords = new Set([
+                    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 
+                    'to', 'for', 'of', 'with', 'by'
+                ]);
+                
+                if (!stopWords.has(word)) {
+                    frequency[word] = (frequency[word] || 0) + 1;
+                }
+            });
+
+            return frequency;
+        }
+
+        function abstractiveSummarization(text, summaryLength) {
+            // Basic abstractive summary using sentence reduction
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+            const maxSentences = Math.max(1, Math.floor(sentences.length * summaryLength));
+            
+            // Reduce complexity of selected sentences
+            const summary = sentences
+                .slice(0, maxSentences)
+                .map(sentence => {
+                    // Remove unnecessary words while maintaining core meaning
+                    return sentence
+                        .replace(/\b(very|really|basically|actually)\b/gi, '')
+                        .replace(/,\s+/g, ' ')
+                        .trim();
+                })
+                .join(' ');
+
+            return summary;
+        }
+
+        function calculateSummaryStats(originalText, summary) {
+            const originalWords = (originalText.match(/\b\w+\b/g) || []).length;
+            const summaryWords = (summary.match(/\b\w+\b/g) || []).length;
+            const compressionRatio = ((summaryWords / originalWords) * 100).toFixed(2);
+
+            const statsElement = document.getElementById('summaryStats');
+            statsElement.innerHTML = `
+                Original Text Words: ${originalWords}<br>
+                Summary Words: ${summaryWords}<br>
+                Compression Ratio: ${compressionRatio}%
+            `;
+        }
+
+        // Error handling
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('Error: ' + msg);
+            return false;
+        };
+    </script>
+</body>
+</html>
