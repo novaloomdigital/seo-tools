@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Text Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Text Generator</h1>
+        <button onclick="generateText()">Generate Random Text</button>
+        <textarea id="outputText" placeholder="Generated text will appear here..." readonly></textarea>
+    </div>
+
+    <script>
+        // Arrays of words to generate sentences
+        const subjects = ["The cat", "A dog", "The teacher", "My friend", "The child"];
+        const verbs = ["jumps", "runs", "sleeps", "eats", "plays"];
+        const objects = ["on the mat", "in the park", "with a ball", "under the tree", "in the house"];
+        const adverbs = ["quickly", "silently", "happily", "sadly", "gracefully"];
+
+        function generateText() {
+            const randomSubject = getRandomElement(subjects);
+            const randomVerb = getRandomElement(verbs);
+            const randomObject = getRandomElement(objects);
+            const randomAdverb = getRandomElement(adverbs);
+
+            // Create a random sentence
+            const randomSentence = `${randomSubject} ${randomVerb} ${randomObject} ${randomAdverb}.`;
+
+            // Display the generated text
+            document.getElementById("outputText").value = randomSentence;
+        }
+
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+    </script>
+</body>
+</html>
