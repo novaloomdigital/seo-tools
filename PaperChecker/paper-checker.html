@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paper Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .highlight {
+            background-color: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Paper Checker</h1>
+        <textarea id="inputText" placeholder="Enter your paper here..."></textarea>
+        <button onclick="checkPaper()">Check Paper</button>
+        
+        <div class="results">
+            <h3>Analysis Results:</h3>
+            <p id="wordCount"></p>
+            <p id="sentenceCount"></p>
+            <p id="readabilityScore"></p>
+            <h3>Highlighted Issues:</h3>
+            <div id="highlightedIssues"></div>
+        </div>
+    </div>
+
+    <script>
+        function checkPaper() {
+            const text = document.getElementById("inputText").value.trim();
+            const highlightedIssues = document.getElementById("highlightedIssues");
+            const wordCountElement = document.getElementById("wordCount");
+            const sentenceCountElement = document.getElementById("sentenceCount");
+            const readabilityScoreElement = document.getElementById("readabilityScore");
+
+            // Clear previous analysis
+            highlightedIssues.innerHTML = '';
+            wordCountElement.innerText = '';
+            sentenceCountElement.innerText = '';
+            readabilityScoreElement.innerText = '';
+
+            if (!text) {
+                highlightedIssues.innerHTML = '<p>Please enter some text to check.</p>';
+                return;
+            }
+
+            // Basic analysis
+            const words = text.split(/\s+/).filter(word => word.length > 0);
+            const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+
+            const wordCount = words.length;
+            const sentenceCount = sentences.length;
+            const readabilityScore = calculateReadabilityScore(wordCount, sentenceCount);
+
+            wordCountElement.innerText = `Word Count: ${wordCount}`;
+            sentenceCountElement.innerText = `Sentence Count: ${sentenceCount}`;
+            readabilityScoreElement.innerText = `Readability Score: ${readabilityScore.toFixed(2)}`;
+
+            // Highlight common mistakes (basic example)
+            const commonMistakes = {
+                "a lot": "a lot (consider using 'many' or 'much')",
+                "very": "very (try to use more precise adjectives)",
+                "really": "really (consider removing or replacing with a stronger word)",
+                "basically": "basically (consider removing for conciseness)",
+                "you": "you (avoid using second person in formal writing)",
+                "I": "I (avoid using first person in formal writing)"
+            };
+
+            let issuesFound = false;
+
+            for (const [mistake, suggestion] of Object.entries(commonMistakes)) {
+                const regex = new RegExp(`\\b${mistake}\\b`, 'gi');
+                if (text.match(regex)) {
+                    issuesFound = true;
+                    const issue = document.createElement('p');
+                    issue.innerHTML = `Potential Issue: <span class="highlight">${mistake}</span> - ${suggestion}`;
+                    highlightedIssues.appendChild(issue);
+                }
+            }
+
+            if (!issuesFound) {
+                highlightedIssues.innerHTML = '<p>No issues found!</p>';
+            }
+        }
+
+        function calculateReadabilityScore(wordCount, sentenceCount) {
+            // Simple Flesch-Kincaid readability formula
+            return 206.835 - (1.015 * (wordCount / sentenceCount)) - (84.6 * (wordCount / sentenceCount));
+        }
+    </script>
+</body>
+</html>
