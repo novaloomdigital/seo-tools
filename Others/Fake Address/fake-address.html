@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Address Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .generator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #address {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator">
+        <h2>Fake Address Generator</h2>
+        <button onclick="generateAddress()">Generate Address</button>
+        <div id="address"></div>
+    </div>
+    <script>
+        const streetNames = ["Main St", "Second St", "Third St", "Oak St", "Pine St", "Maple Ave", "Cedar Ave", "Elm St", "Sunset Blvd", "River Rd"];
+        const cities = ["Springfield", "Riverside", "Greenville", "Franklin", "Clinton", "Madison", "Bristol", "Salem", "Fairview", "Centerville"];
+        const states = ["CA", "TX", "NY", "FL", "IL", "PA", "OH", "GA", "NC", "MI"];
+        const zipCodes = ["12345", "23456", "34567", "45678", "56789", "67890", "78901", "89012", "90123", "01234"];
+
+        function generateAddress() {
+            const streetNumber = Math.floor(Math.random() * 9999) + 1; // Generate a random street number
+            const streetName = streetNames[Math.floor(Math.random() * streetNames.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const state = states[Math.floor(Math.random() * states.length)];
+            const zipCode = zipCodes[Math.floor(Math.random() * zipCodes.length)];
+
+            document.getElementById('address').textContent = `${streetNumber} ${streetName}, ${city}, ${state} ${zipCode}`;
+        }
+    </script>
+</body>
+</html>

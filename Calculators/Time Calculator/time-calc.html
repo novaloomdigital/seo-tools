@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Time Calculator</h1>
+        <h3>Add or Subtract Time</h3>
+        <input type="number" id="hours" placeholder="Hours" />
+        <input type="number" id="minutes" placeholder="Minutes" />
+        <select id="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+        </select>
+        <button onclick="calculateTime()">Calculate</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="resultOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateTime() {
+            const hoursInput = parseInt(document.getElementById("hours").value) || 0;
+            const minutesInput = parseInt(document.getElementById("minutes").value) || 0;
+            const operation = document.getElementById("operation").value;
+            const resultOutput = document.getElementById("resultOutput");
+
+            // Calculate total minutes
+            let totalMinutes = (hoursInput * 60) + minutesInput;
+
+            // Perform operation
+            if (operation === "subtract") {
+                totalMinutes = Math.max(totalMinutes, 0); // Prevent negative time
+            }
+
+            // Convert total minutes back to hours and minutes
+            const hoursResult = Math.floor(totalMinutes / 60);
+            const minutesResult = totalMinutes % 60;
+
+            // Display result
+            resultOutput.innerText = `Result: ${hoursResult} hours and ${minutesResult} minutes`;
+        }
+    </script>
+</body>
+</html>

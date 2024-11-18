@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calorie Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calorie Calculator</h1>
+        <input type="number" id="calorieGoal" placeholder="Daily Calorie Goal" />
+        <input type="text" id="foodItem" placeholder="Food Item" />
+        <input type="number" id="calories" placeholder="Calories per Serving" step="0.01" />
+        <button onclick="addCalories()">Add Calories</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="totalCaloriesOutput"></p>
+            <p id="caloriesRemainingOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        let totalCalories = 0;
+
+        function addCalories() {
+            const calorieGoal = parseFloat(document.getElementById("calorieGoal").value);
+            const calories = parseFloat(document.getElementById("calories").value);
+            const foodItem = document.getElementById("foodItem").value;
+            const totalCaloriesOutput = document.getElementById("totalCaloriesOutput");
+            const caloriesRemainingOutput = document.getElementById("caloriesRemainingOutput");
+
+            // Validate inputs
+            if (isNaN(calorieGoal) || calorieGoal <= 0) {
+                alert("Please enter a valid calorie goal.");
+                return;
+            }
+
+            if (isNaN(calories) || calories < 0 || !foodItem) {
+                alert("Please enter a valid food item and calorie amount.");
+                return;
+            }
+
+            // Add calories
+            totalCalories += calories;
+
+            // Update the results
+            totalCaloriesOutput.innerText = `Total Calories Consumed: ${totalCalories} cal`;
+            const caloriesRemaining = calorieGoal - totalCalories;
+            caloriesRemainingOutput.innerText = `Calories Remaining: ${caloriesRemaining < 0 ? 0 : caloriesRemaining} cal`;
+
+            // Clear input fields
+            document.getElementById("foodItem").value = '';
+            document.getElementById("calories").value = '';
+        }
+    </script>
+</body>
+</html>

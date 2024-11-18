@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Percentage Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Percentage Calculator</h1>
+        <h3>Calculate Percentage of a Number</h3>
+        <input type="number" id="numberValue" placeholder="Enter a number" />
+        <input type="number" id="percentValue" placeholder="Enter percentage" />
+        <button onclick="calculatePercentage()">Calculate Percentage</button>
+        
+        <h3>Calculate What Percentage One Number Is of Another</h3>
+        <input type="number" id="partValue" placeholder="Enter part value" />
+        <input type="number" id="wholeValue" placeholder="Enter whole value" />
+        <button onclick="calculatePartPercentage()">Calculate Percentage</button>
+
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="percentageOutput"></p>
+            <p id="partPercentageOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculatePercentage() {
+            const numberValue = parseFloat(document.getElementById("numberValue").value);
+            const percentValue = parseFloat(document.getElementById("percentValue").value);
+            const percentageOutput = document.getElementById("percentageOutput");
+
+            if (isNaN(numberValue) || isNaN(percentValue)) {
+                percentageOutput.innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            const result = (numberValue * percentValue) / 100;
+            percentageOutput.innerText = `${percentValue}% of ${numberValue} is ${result}.`;
+        }
+
+        function calculatePartPercentage() {
+            const partValue = parseFloat(document.getElementById("partValue").value);
+            const wholeValue = parseFloat(document.getElementById("wholeValue").value);
+            const partPercentageOutput = document.getElementById("partPercentageOutput");
+
+            if (isNaN(partValue) || isNaN(wholeValue) || wholeValue === 0) {
+                partPercentageOutput.innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            const percentage = (partValue / wholeValue) * 100;
+            partPercentageOutput.innerText = `${partValue} is ${percentage.toFixed(2)}% of ${wholeValue}.`;
+        }
+    </script>
+</body>
+</html>

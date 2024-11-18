@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mean, Median, Mode Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Mean, Median, Mode Calculator</h2>
+        <form id="stats-form">
+            <label for="numbers">Enter numbers (comma-separated):</label>
+            <input type="text" id="numbers" required>
+
+            <button type="button" onclick="calculateStats()">Calculate</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        function calculateStats() {
+            const input = document.getElementById('numbers').value;
+            const numbers = input.split(',').map(Number).filter(n => !isNaN(n));
+
+            if (numbers.length === 0) {
+                document.getElementById('result').textContent = 'Please enter valid numbers.';
+                return;
+            }
+
+            const mean = numbers.reduce((a, b) => a + b, 0) / numbers.length;
+
+            const sortedNumbers = [...numbers].sort((a, b) => a - b);
+            let median;
+            if (sortedNumbers.length % 2 === 0) {
+                median = (sortedNumbers[sortedNumbers.length / 2 - 1] + sortedNumbers[sortedNumbers.length / 2]) / 2;
+            } else {
+                median = sortedNumbers[Math.floor(sortedNumbers.length / 2)];
+            }
+
+            const frequency = {};
+            let mode = [];
+            let maxFreq = 0;
+            numbers.forEach(num => {
+                frequency[num] = (frequency[num] || 0) + 1;
+                if (frequency[num] > maxFreq) {
+                    maxFreq = frequency[num];
+                    mode = [num];
+                } else if (frequency[num] === maxFreq) {
+                    mode.push(num);
+                }
+            });
+
+            if (mode.length === numbers.length) mode = []; // No mode if all numbers occur equally
+
+            document.getElementById('result').textContent = `
+                Mean: ${mean.toFixed(2)}, 
+                Median: ${median}, 
+                Mode: ${mode.length > 0 ? mode.join(', ') : 'No mode'}
+            `;
+        }
+    </script>
+</body>
+</html>

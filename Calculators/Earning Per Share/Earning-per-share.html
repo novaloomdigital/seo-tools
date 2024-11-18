@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Earnings Per Share Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Earnings Per Share Calculator</h1>
+        <input type="number" id="netEarnings" placeholder="Net Earnings" step="0.01" />
+        <input type="number" id="outstandingShares" placeholder="Outstanding Shares" step="1" />
+        <button onclick="calculateEPS()">Calculate EPS</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="epsOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateEPS() {
+            const netEarnings = parseFloat(document.getElementById("netEarnings").value);
+            const outstandingShares = parseFloat(document.getElementById("outstandingShares").value);
+            const epsOutput = document.getElementById("epsOutput");
+
+            // Validate input
+            if (isNaN(netEarnings) || isNaN(outstandingShares) || outstandingShares <= 0) {
+                epsOutput.innerText = "Please enter valid positive numbers.";
+                return;
+            }
+
+            // Calculate EPS
+            const eps = netEarnings / outstandingShares;
+
+            epsOutput.innerText = `Earnings Per Share (EPS): $${eps.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

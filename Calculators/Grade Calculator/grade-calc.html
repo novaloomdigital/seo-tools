@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grade Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Grade Calculator</h1>
+        <input type="number" id="score1" placeholder="Score 1" step="0.01" />
+        <input type="number" id="score2" placeholder="Score 2" step="0.01" />
+        <input type="number" id="score3" placeholder="Score 3" step="0.01" />
+        <input type="number" id="score4" placeholder="Score 4" step="0.01" />
+        <button onclick="calculateGrade()">Calculate Grade</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="averageOutput"></p>
+            <p id="gradeOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateGrade() {
+            const scores = [
+                parseFloat(document.getElementById("score1").value),
+                parseFloat(document.getElementById("score2").value),
+                parseFloat(document.getElementById("score3").value),
+                parseFloat(document.getElementById("score4").value),
+            ];
+
+            const averageOutput = document.getElementById("averageOutput");
+            const gradeOutput = document.getElementById("gradeOutput");
+
+            // Validate inputs
+            const validScores = scores.filter(score => !isNaN(score));
+            if (validScores.length === 0) {
+                averageOutput.innerText = "Please enter at least one valid score.";
+                gradeOutput.innerText = "";
+                return;
+            }
+
+            // Calculate average score
+            const total = validScores.reduce((acc, score) => acc + score, 0);
+            const average = total / validScores.length;
+
+            // Determine letter grade
+            let letterGrade;
+            if (average >= 90) {
+                letterGrade = "A";
+            } else if (average >= 80) {
+                letterGrade = "B";
+            } else if (average >= 70) {
+                letterGrade = "C";
+            } else if (average >= 60) {
+                letterGrade = "D";
+            } else {
+                letterGrade = "F";
+            }
+
+            averageOutput.innerText = `Average Score: ${average.toFixed(2)}`;
+            gradeOutput.innerText = `Letter Grade: ${letterGrade}`;
+        }
+    </script>
+</body>
+</html>

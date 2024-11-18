@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GPA Calculator</h1>
+        <div id="courses">
+            <div class="course">
+                <select class="grade">
+                    <option value="4.0">A</option>
+                    <option value="3.0">B</option>
+                    <option value="2.0">C</option>
+                    <option value="1.0">D</option>
+                    <option value="0.0">F</option>
+                </select>
+                <input type="number" class="creditHours" placeholder="Credit Hours" step="0.5" min="0" />
+            </div>
+        </div>
+        <button onclick="addCourse()">Add Course</button>
+        <button onclick="calculateGPA()">Calculate GPA</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="gpaOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function addCourse() {
+            const coursesDiv = document.getElementById("courses");
+            const courseDiv = document.createElement("div");
+            courseDiv.className = "course";
+
+            const gradeSelect = document.createElement("select");
+            gradeSelect.className = "grade";
+            ["A", "B", "C", "D", "F"].forEach(grade => {
+                const option = document.createElement("option");
+                option.value = grade === "A" ? "4.0" : grade === "B" ? "3.0" : grade === "C" ? "2.0" : grade === "D" ? "1.0" : "0.0";
+                option.textContent = grade;
+                gradeSelect.appendChild(option);
+            });
+
+            const creditInput = document.createElement("input");
+            creditInput.type = "number";
+            creditInput.className = "creditHours";
+            creditInput.placeholder = "Credit Hours";
+            creditInput.step = "0.5";
+            creditInput.min = "0";
+
+            courseDiv.appendChild(gradeSelect);
+            courseDiv.appendChild(creditInput);
+            coursesDiv.appendChild(courseDiv);
+        }
+
+        function calculateGPA() {
+            const grades = document.querySelectorAll(".grade");
+            const credits = document.querySelectorAll(".creditHours");
+            const gpaOutput = document.getElementById("gpaOutput");
+
+            let totalGradePoints = 0;
+            let totalCredits = 0;
+
+            grades.forEach((gradeSelect, index) => {
+                const gradeValue = parseFloat(gradeSelect.value);
+                const creditValue = parseFloat(credits[index].value);
+
+                if (!isNaN(creditValue) && creditValue > 0) {
+                    totalGradePoints += gradeValue * creditValue;
+                    totalCredits += creditValue;
+                }
+            });
+
+            if (totalCredits === 0) {
+                gpaOutput.innerText = "Please enter valid credit hours.";
+                return;
+            }
+
+            const gpa = totalGradePoints / totalCredits;
+            gpaOutput.innerText = `Your GPA: ${gpa.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

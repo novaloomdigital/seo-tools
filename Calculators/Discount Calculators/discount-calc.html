@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Discount Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Discount Calculator</h1>
+        <input type="number" id="originalPrice" placeholder="Original Price" step="0.01" />
+        <input type="number" id="discountPercentage" placeholder="Discount Percentage" step="0.01" />
+        <button onclick="calculateDiscount()">Calculate Final Price</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="discountOutput"></p>
+            <p id="finalPriceOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateDiscount() {
+            const originalPrice = parseFloat(document.getElementById("originalPrice").value);
+            const discountPercentage = parseFloat(document.getElementById("discountPercentage").value);
+            const discountOutput = document.getElementById("discountOutput");
+            const finalPriceOutput = document.getElementById("finalPriceOutput");
+
+            // Validate input
+            if (isNaN(originalPrice) || isNaN(discountPercentage) || originalPrice < 0 || discountPercentage < 0) {
+                discountOutput.innerText = "Please enter valid positive numbers.";
+                finalPriceOutput.innerText = "";
+                return;
+            }
+
+            // Calculate discount and final price
+            const discountAmount = (originalPrice * discountPercentage) / 100;
+            const finalPrice = originalPrice - discountAmount;
+
+            discountOutput.innerText = `Discount Amount: $${discountAmount.toFixed(2)}`;
+            finalPriceOutput.innerText = `Final Price: $${finalPrice.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Probability Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Probability Calculator</h1>
+        <input type="number" id="favorableOutcomes" placeholder="Favorable Outcomes" />
+        <input type="number" id="totalOutcomes" placeholder="Total Outcomes" />
+        <button onclick="calculateProbability()">Calculate Probability</button>
+        
+        <div class="results">
+            <h3>Results:</h3>
+            <p id="probabilityOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateProbability() {
+            const favorableOutcomes = parseFloat(document.getElementById("favorableOutcomes").value);
+            const totalOutcomes = parseFloat(document.getElementById("totalOutcomes").value);
+            const probabilityOutput = document.getElementById("probabilityOutput");
+
+            // Validate input
+            if (isNaN(favorableOutcomes) || isNaN(totalOutcomes) || totalOutcomes <= 0) {
+                probabilityOutput.innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            if (favorableOutcomes < 0) {
+                probabilityOutput.innerText = "Favorable outcomes cannot be negative.";
+                return;
+            }
+
+            // Calculate probability
+            const probability = favorableOutcomes / totalOutcomes;
+
+            probabilityOutput.innerText = `Probability: ${probability.toFixed(4)}`;
+        }
+    </script>
+</body>
+</html>
