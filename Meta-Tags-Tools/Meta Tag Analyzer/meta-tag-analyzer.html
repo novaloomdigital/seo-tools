@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Tag Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .analyzer {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+        }
+    </style>
+</head>
+<body>
+    <div class="analyzer">
+        <h2>Meta Tag Analyzer</h2>
+
+        <input type="text" id="url" placeholder="Enter URL" />
+        <button onclick="analyzeMetaTags()">Analyze</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function analyzeMetaTags() {
+            const url = document.getElementById('url').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            if (!url) {
+                resultDiv.textContent = 'Please enter a valid URL.';
+                return;
+            }
+
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const metaTags = doc.getElementsByTagName('meta');
+                
+                let resultText = 'Meta Tags Found:\n\n';
+
+                for (let tag of metaTags) {
+                    const name = tag.getAttribute('name');
+                    const property = tag.getAttribute('property');
+                    const content = tag.getAttribute('content');
+
+                    if (name) {
+                        resultText += `${name}: ${content || 'No Content'}\n`;
+                    } else if (property) {
+                        resultText += `${property}: ${content || 'No Content'}\n`;
+                    }
+                }
+
+                if (resultText === 'Meta Tags Found:\n\n') {
+                    resultText = 'No meta tags found.';
+                }
+
+                resultDiv.textContent = resultText;
+            } catch (error) {
+                resultDiv.textContent = 'Error fetching the URL. Please check the URL and try again.';
+            }
+        }
+    </script>
+</body>
+</html>

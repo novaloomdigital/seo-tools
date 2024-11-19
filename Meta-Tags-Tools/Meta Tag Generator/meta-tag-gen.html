@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Tag Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .generator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+        }
+    </style>
+</head>
+<body>
+    <div class="generator">
+        <h2>Meta Tag Generator</h2>
+
+        <input type="text" id="title" placeholder="Page Title">
+        <textarea id="description" placeholder="Page Description" rows="3"></textarea>
+        <input type="text" id="keywords" placeholder="Keywords (comma separated)">
+        <input type="text" id="author" placeholder="Author Name">
+
+        <button onclick="generateMetaTags()">Generate Meta Tags</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function generateMetaTags() {
+            const title = document.getElementById('title').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const keywords = document.getElementById('keywords').value.trim();
+            const author = document.getElementById('author').value.trim();
+
+            let result = '';
+
+            if (title) {
+                result += `<title>${title}</title>\n`;
+            }
+            if (description) {
+                result += `<meta name="description" content="${description}">\n`;
+            }
+            if (keywords) {
+                result += `<meta name="keywords" content="${keywords}">\n`;
+            }
+            if (author) {
+                result += `<meta name="author" content="${author}">\n`;
+            }
+
+            document.getElementById('result').textContent = result || 'Please fill in at least one field.';
+        }
+    </script>
+</body>
+</html>
