@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to Word Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .converter {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>JPG to Word Converter</h2>
+        <input type="file" id="imageInput" accept="image/jpeg">
+        <button onclick="convertImageToWord()">Convert to Word</button>
+
+        <div id="result"></div>
+    </div>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.54.0/docxtemplater.min.js" integrity="sha512-4TskQqzRMgMvk+l5SC7VMa3N8B483HMjeHPot7znytyw7gwNSd+hCqhuu6iTkbltP+F/8wLgtJmiTeDYL30tSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script>
+        function convertImageToWord() {
+            const imageInput = document.getElementById('imageInput');
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous result
+            resultDiv.textContent = '';
+
+            if (imageInput.files.length === 0) {
+                resultDiv.textContent = 'Please upload a JPG file.';
+                resultDiv.classList.add('error');
+                return;
+            }
+
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+
+                Tesseract.recognize(
+                    img,
+                    'eng', // Language
+                    {
+                        logger: info => console.log(info) // Log progress
+                    }
+                ).then(({ data: { text } }) => {
+                    // Create a Word document from the extracted text
+                    generateWordDocument(text);
+                }).catch(err => {
+                    resultDiv.textContent = 'Error: ' + err.message;
+                    resultDiv.classList.add('error');
+                });
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function generateWordDocument(text) {  
+            const doc = new docx.Document();
+
+            doc.addSection({
+                properties: {},
+                children: [
+                    new docx.Paragraph({
+                        text: text,
+                        heading: docx.HeadingLevel.NORMAL,
+                    }),
+                ],
+            });
+
+            // Create a Packer to convert the document to a blob
+            docx.Packer.toBlob(doc).then(blob => {
+                // Create a download link for the generated Word document
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'extracted_text.docx';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+    </script>
+</body>
+</html>
