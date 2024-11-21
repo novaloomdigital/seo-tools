@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is My Screen Size Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>What is My Screen Size?</h2>
+    <button onclick="displayScreenSize()">Check Screen Size</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function displayScreenSize() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        document.getElementById('result').innerText = `Screen Size: ${width} x ${height} pixels`;
+    }
+
+    // Display screen size on page load
+    window.onload = displayScreenSize;
+    
+    // Update the size on window resize
+    window.onresize = displayScreenSize;
+</script>
+
+</body>
+</html>

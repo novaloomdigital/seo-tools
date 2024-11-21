@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlink Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Backlink Checker</h2>
+    <input type="text" id="domain" placeholder="Enter domain (e.g., example.com)">
+    <button onclick="checkBackLinks()">Check Backlinks</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkBackLinks() {
+        const domain = document.getElementById('domain').value.trim().toLowerCase();
+
+        if (!domain) {
+            document.getElementById('result').innerText = 'Please enter a domain.';
+            return;
+        }
+
+        // Simulated backlink data
+        const backLinkData = {
+            "example.com": [
+                { url: "site1.com", type: "dofollow", quality: "high" },
+                { url: "site2.com", type: "nofollow", quality: "medium" },
+                { url: "site3.com", type: "dofollow", quality: "low" }
+            ],
+            "mywebsite.com": [
+                { url: "blog1.com", type: "dofollow", quality: "high" },
+                { url: "forum1.com", type: "nofollow", quality: "medium" },
+                { url: "directory1.com", type: "dofollow", quality: "high" }
+            ]
+        };
+
+        const backLinks = backLinkData[domain] || null;
+
+        if (!backLinks) {
+            document.getElementById('result').innerText = `No backlink data found for "${domain}". Try a different domain.`;
+            return;
+        }
+
+        // Create the results table
+        let html = `<table>
+                        <tr>
+                            <th>Backlink URL</th>
+                            <th>Type</th>
+                            <th>Quality</th>
+                        </tr>`;
+        
+        backlinks.forEach(backlink => {
+            html += `<tr>
+                        <td>${backLink.url}</td>
+                        <td>${backLink.type}</td>
+                        <td>${backLink.quality}</td>
+                     </tr>`;
+        });
+
+        html += `</table>`;
+        document.getElementById('result').innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

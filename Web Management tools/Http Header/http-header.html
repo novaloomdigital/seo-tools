@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP GET Header Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            white-space: pre-wrap; /* Preserve whitespace for formatting */
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>HTTP GET Header Tool</h2>
+    <input type="text" id="url" placeholder="Enter URL (e.g., http://example.com)" required>
+    <button onclick="getHttpHeaders()">Get HTTP Headers</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function getHttpHeaders() {
+        const url = document.getElementById('url').value.trim();
+
+        if (!url) {
+            document.getElementById('result').innerText = 'Please enter a URL.';
+            return;
+        }
+
+        // Simulated HTTP headers for demonstration
+        const simulatedHeaders = {
+            "http://example.com": {
+                "HTTP/1.1": "200 OK",
+                "Content-Type": "text/html; charset=UTF-8",
+                "Content-Length": "1256",
+                "Server": "Apache/2.4.41 (Ubuntu)",
+                "Date": new Date().toUTCString(),
+            },
+            "http://mywebsite.com": {
+                "HTTP/1.1": "404 Not Found",
+                "Content-Type": "text/html; charset=UTF-8",
+                "Server": "Nginx/1.18.0",
+                "Date": new Date().toUTCString(),
+            }
+        };
+
+        const headers = simulatedHeaders[url] || null;
+
+        if (!headers) {
+            document.getElementById('result').innerText = `No headers found for "${url}". Try a different URL.`;
+        } else {
+            let headerText = '';
+            for (const [key, value] of Object.entries(headers)) {
+                headerText += `${key}: ${value}\n`;
+            }
+            document.getElementById('result').innerText = headerText;
+        }
+    }
+</script>
+
+</body>
+</html>

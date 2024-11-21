@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Rich Domain Analysis Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Keyword Rich Domain Analysis Tool</h2>
+    <input type="text" id="domain" placeholder="Enter domain (e.g., example.com)">
+    <button onclick="analyzeDomain()">Analyze Domain</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function analyzeDomain() {
+        const domain = document.getElementById('domain').value.trim().toLowerCase();
+
+        if (!domain) {
+            document.getElementById('result').innerText = 'Please enter a domain.';
+            return;
+        }
+
+        // Simulated keywords for analysis
+        const keywords = ["seo", "marketing", "fitness", "blogging", "javascript"];
+        const domainParts = domain.split('.');
+
+        // Check for keywords in the domain
+        const foundKeywords = keywords.filter(keyword => domain.includes(keyword));
+
+        // Create result message
+        let resultMessage = `Domain: ${domain}<br>`;
+        if (foundKeywords.length > 0) {
+            resultMessage += `Found keywords: ${foundKeywords.join(', ')}<br>`;
+            resultMessage += `Strength: ${foundKeywords.length} keyword(s) present.`;
+        } else {
+            resultMessage += 'No relevant keywords found in the domain.';
+        }
+
+        // Display the results
+        document.getElementById('result').innerHTML = resultMessage;
+    }
+</script>
+
+</body>
+</html>

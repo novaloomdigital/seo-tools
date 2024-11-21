@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlink Maker Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Backlink Maker Tool</h2>
+    <input type="text" id="url" placeholder="Enter your URL (e.g., http://example.com)">
+    <button onclick="generateBacklinks()">Generate Backlinks</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function generateBacklinks() {
+        const url = document.getElementById('url').value.trim();
+
+        if (!url) {
+            document.getElementById('result').innerText = 'Please enter a URL.';
+            return;
+        }
+
+        // Simulated backlink sources
+        const backlinkSources = [
+            "http://example1.com/submit",
+            "http://example2.com/add-url",
+            "http://example3.com/register",
+            "http://example4.com/create-backlink",
+            "http://example5.com/link-building",
+            "http://example6.com/add-site",
+            "http://example7.com/submit-link",
+            "http://example8.com/directory",
+            "http://example9.com/forum-signature",
+            "http://example10.com/blog-comment"
+        ];
+
+        // Generate a list of backlinks
+        let html = `<strong>Generated Backlinks for ${url}:</strong><ul>`;
+        backlinkSources.forEach(source => {
+            html += `<li><a href="${source}?url=${encodeURIComponent(url)}" target="_blank">${source}?url=${encodeURIComponent(url)}</a></li>`;
+        });
+        html += `</ul>`;
+
+        document.getElementById('result').innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdSense Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>AdSense Calculator</h2>
+    <input type="number" id="pageViews" placeholder="Estimated Page Views" min="0">
+    <input type="number" id="ctr" placeholder="Click-Through Rate (%)" min="0" max="100">
+    <input type="number" id="cpc" placeholder="Cost Per Click (USD)" step="0.01" min="0">
+    <button onclick="calculateEarnings()">Calculate Earnings</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calculateEarnings() {
+        const pageViews = parseInt(document.getElementById('pageViews').value) || 0;
+        const ctr = parseFloat(document.getElementById('ctr').value) || 0;
+        const cpc = parseFloat(document.getElementById('cpc').value) || 0;
+
+        // Calculate estimated clicks
+        const estimatedClicks = (pageViews * (ctr / 100));
+
+        // Calculate estimated earnings
+        const estimatedEarnings = (estimatedClicks * cpc).toFixed(2);
+
+        // Display the result
+        document.getElementById('result').innerText = `Estimated Earnings: $${estimatedEarnings}`;
+    }
+</script>
+
+</body>
+</html>

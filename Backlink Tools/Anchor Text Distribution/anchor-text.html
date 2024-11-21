@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anchor Text Distribution Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Anchor Text Distribution Tool</h2>
+    <input type="text" id="url" placeholder="Enter URL (e.g., http://example.com)">
+    <button onclick="analyzeAnchorText()">Analyze Anchor Text</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function analyzeAnchorText() {
+        const url = document.getElementById('url').value.trim();
+
+        if (!url) {
+            document.getElementById('result').innerText = 'Please enter a URL.';
+            return;
+        }
+
+        // Simulated anchor text distribution data
+        const anchorTextData = {
+            "http://example.com": [
+                { anchor: "SEO Tips", count: 10 },
+                { anchor: "Digital Marketing", count: 5 },
+                { anchor: "Content Strategy", count: 7 },
+                { anchor: "Online Marketing", count: 3 },
+                { anchor: "Backlink Building", count: 8 }
+            ],
+            "http://mywebsite.com": [
+                { anchor: "Fitness Tips", count: 6 },
+                { anchor: "Healthy Recipes", count: 4 },
+                { anchor: "Workout Routines", count: 9 }
+            ],
+            "http://samplepage.com": []
+        };
+
+        const data = anchorTextData[url] || null;
+
+        if (data === null) {
+            document.getElementById('result').innerText = `No anchor text data found for "${url}". Try a different URL.`;
+        } else if (data.length === 0) {
+            document.getElementById('result').innerText = `No anchor texts found for "${url}".`;
+        } else {
+            // Create the results table
+            let html = `<table>
+                            <tr>
+                                <th>Anchor Text</th>
+                                <th>Count</th>
+                            </tr>`;
+            data.forEach(anchor => {
+                html += `<tr>
+                            <td>${anchor.anchor}</td>
+                            <td>${anchor.count}</td>
+                         </tr>`;
+            });
+            html += `</table>`;
+            document.getElementById('result').innerHTML = html;
+        }
+    }
+</script>
+
+</body>
+</html>

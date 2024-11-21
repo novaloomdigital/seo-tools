@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paid Keyword Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Paid Keyword Finder</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <button onclick="findPaidKeywords()">Find Paid Keywords</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function findPaidKeywords() {
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+
+        if (!keyword) {
+            document.getElementById('result').innerText = 'Please enter a keyword.';
+            return;
+        }
+
+        // Simulated paid keyword data
+        const paidKeywordData = {
+            "seo": [
+                { keyword: "seo tools", volume: 1000, cpc: 2.50 },
+                { keyword: "best seo practices", volume: 800, cpc: 3.00 },
+                { keyword: "seo optimization", volume: 600, cpc: 2.20 }
+            ],
+            "digital marketing": [
+                { keyword: "digital marketing tools", volume: 1200, cpc: 3.50 },
+                { keyword: "digital marketing strategies", volume: 900, cpc: 2.80 }
+            ],
+            "fitness": [
+                { keyword: "home fitness equipment", volume: 950, cpc: 2.40 },
+                { keyword: "fitness programs", volume: 700, cpc: 3.10 }
+            ],
+            "blogging": [
+                { keyword: "blogging tips", volume: 600, cpc: 1.80 },
+                { keyword: "how to start a blog", volume: 450, cpc: 2.00 }
+            ]
+        };
+
+        const suggestions = paidKeywordData[keyword] || [`No paid keywords found for "${keyword}". Try a different keyword.`];
+
+        // Create the results table
+        let html = `<table>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Search Volume</th>
+                            <th>CPC (USD)</th>
+                        </tr>`;
+        
+        suggestions.forEach(data => {
+            if (typeof data === 'string') {
+                html += `<tr><td colspan="3">${data}</td></tr>`;
+            } else {
+                html += `<tr>
+                            <td>${data.keyword}</td>
+                            <td>${data.volume}</td>
+                            <td>$${data.cpc.toFixed(2)}</td>
+                         </tr>`;
+            }
+        });
+
+        html += `</table>`;
+        document.getElementById('result').innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

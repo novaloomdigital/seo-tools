@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Density Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .checker {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input, textarea {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="checker">
+    <h2>Keyword Density Checker</h2>
+    <textarea id="text" placeholder="Enter text here" rows="8"></textarea>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <button onclick="checkDensity()">Check Density</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkDensity() {
+        const text = document.getElementById('text').value.trim();
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+
+        if (!text || !keyword) {
+            document.getElementById('result').innerText = 'Please enter both text and a keyword.';
+            return;
+        }
+
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        const totalWords = words.length;
+        const keywordCount = words.filter(word => word.toLowerCase() === keyword).length;
+
+        const density = ((keywordCount / totalWords) * 100).toFixed(2);
+
+        document.getElementById('result').innerText = `Keyword "${keyword}" occurs ${keywordCount} times.\nKeyword Density: ${density}%`;
+    }
+</script>
+
+</body>
+</html>

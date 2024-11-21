@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Position Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input, textarea {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Keyword Position Tool</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <textarea id="urls" placeholder="Enter URLs (one per line)"></textarea>
+    <button onclick="checkPosition()">Check Position</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkPosition() {
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+        const urlsInput = document.getElementById('urls').value.trim();
+        const urls = urlsInput.split('\n').map(url => url.trim()).filter(url => url);
+
+        if (!keyword || urls.length === 0) {
+            document.getElementById('result').innerText = 'Please enter a keyword and at least one URL.';
+            return;
+        }
+
+        // Simulating search results
+        const simulatedResults = urls.map((url, index) => {
+            return {
+                url: url,
+                containsKeyword: Math.random() < 0.5 // Randomly determine if the keyword is in the URL
+            };
+        });
+
+        const positionResults = simulatedResults.filter(result => result.containsKeyword);
+
+        if (positionResults.length === 0) {
+            document.getElementById('result').innerText = `The keyword "${keyword}" was not found in any provided URLs.`;
+        } else {
+            const positions = positionResults.map((result, index) => {
+                return `${index + 1}: ${result.url}`;
+            }).join('\n');
+            document.getElementById('result').innerText = `Found positions for keyword "${keyword}":\n${positions}`;
+        }
+    }
+</script>
+
+</body>
+</html>

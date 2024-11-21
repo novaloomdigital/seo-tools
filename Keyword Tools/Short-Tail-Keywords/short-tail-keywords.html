@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Tail Keyword Suggestion Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Short Tail Keyword Suggestion Tool</h2>
+    <input type="text" id="seedKeyword" placeholder="Enter seed keyword">
+    <button onclick="suggestShortTailKeywords()">Get Suggestions</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function suggestShortTailKeywords() {
+        const seedKeyword = document.getElementById('seedKeyword').value.trim().toLowerCase();
+
+        if (!seedKeyword) {
+            document.getElementById('result').innerText = 'Please enter a seed keyword.';
+            return;
+        }
+
+        // Simulated short-tail keyword suggestions
+        const shortTailKeywordData = {
+            "seo": [
+                "SEO",
+                "SEO tools",
+                "SEO techniques",
+                "SEO strategies",
+                "SEO tips"
+            ],
+            "marketing": [
+                "marketing",
+                "digital marketing",
+                "content marketing",
+                "social media",
+                "email marketing"
+            ],
+            "javascript": [
+                "JavaScript",
+                "JavaScript frameworks",
+                "JavaScript libraries",
+                "JavaScript tutorials",
+                "JavaScript tips"
+            ],
+            "blogging": [
+                "blogging",
+                "blogging tips",
+                "blogging ideas",
+                "blogging platforms",
+                "blogging for money"
+            ],
+            "fitness": [
+                "fitness",
+                "fitness tips",
+                "home fitness",
+                "fitness training",
+                "fitness plans"
+            ],
+        };
+
+        const suggestions = shortTailKeywordData[seedKeyword] || [`No short-tail keyword suggestions found for "${seedKeyword}". Try a different keyword.`];
+
+        // Display the results
+        document.getElementById('result').innerHTML = `<ul>${suggestions.map(item => `<li>${item}</li>`).join('')}</ul>`;
+    }
+</script>
+
+</body>
+</html>

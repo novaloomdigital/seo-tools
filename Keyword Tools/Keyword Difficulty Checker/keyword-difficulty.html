@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Difficulty Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .difficulty-score {
+            font-size: 24px;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Keyword Difficulty Checker</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <button onclick="checkKeywordDifficulty()">Check Difficulty</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkKeywordDifficulty() {
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+
+        if (!keyword) {
+            document.getElementById('result').innerText = 'Please enter a keyword.';
+            return;
+        }
+
+        // Simulated keyword difficulty data
+        const keywordDifficultyData = {
+            "seo": 75,
+            "digital marketing": 80,
+            "content marketing": 65,
+            "fitness": 70,
+            "blogging": 60,
+            "javascript": 85,
+            "home workouts": 55,
+            "nutrition": 50,
+            "email marketing": 78,
+            "social media": 82,
+        };
+
+        const difficultyScore = keywordDifficultyData[keyword] || null;
+
+        if (difficultyScore === null) {
+            document.getElementById('result').innerText = `No difficulty data found for "${keyword}". Try a different keyword.`;
+            return;
+        }
+
+        // Display the difficulty score
+        document.getElementById('result').innerHTML = `
+            Keyword: <strong>${keyword}</strong><br>
+            <span class="difficulty-score">Difficulty Score: ${difficultyScore}/100</span>
+        `;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Speed Test Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .speed-test {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="speed-test">
+    <h2>Internet Speed Test</h2>
+    <button onclick="simulateSpeedTest()">Start Test</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function simulateSpeedTest() {
+        document.getElementById('result').innerText = 'Testing... Please wait.';
+
+        // Simulate download and upload speeds after a delay
+        setTimeout(() => {
+            const downloadSpeed = (Math.random() * (100 - 5) + 5).toFixed(2); // Simulate download speed between 5 and 100 Mbps
+            const uploadSpeed = (Math.random() * (50 - 1) + 1).toFixed(2);   // Simulate upload speed between 1 and 50 Mbps
+            
+            // Display the results
+            document.getElementById('result').innerText = `Download Speed: ${downloadSpeed} Mbps\nUpload Speed: ${uploadSpeed} Mbps`;
+        }, 2000); // Simulate a 2-second test duration
+    }
+</script>
+
+</body>
+</html>

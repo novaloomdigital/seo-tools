@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Graph Checker Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Open Graph Checker Tool</h2>
+    <input type="text" id="url" placeholder="Enter URL (e.g., http://example.com)">
+    <button onclick="checkOpenGraph()">Check Open Graph</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkOpenGraph() {
+        const url = document.getElementById('url').value.trim();
+
+        if (!url) {
+            document.getElementById('result').innerText = 'Please enter a URL.';
+            return;
+        }
+
+        // Simulated Open Graph data
+        const openGraphData = {
+            "http://example.com": {
+                title: "Example Domain",
+                type: "website",
+                image: "http://example.com/image.jpg",
+                url: "http://example.com",
+                description: "This domain is for use in illustrative examples in documents."
+            },
+            "http://mywebsite.com": {
+                title: "My Website",
+                type: "article",
+                image: "http://mywebsite.com/image.jpg",
+                url: "http://mywebsite.com",
+                description: "This is a website about various topics."
+            },
+            "http://samplepage.com": {
+                title: "Sample Page",
+                type: "website",
+                image: "http://samplepage.com/image.jpg",
+                url: "http://samplepage.com",
+                description: "A sample page for demonstration purposes."
+            }
+        };
+
+        const data = openGraphData[url] || null;
+
+        if (!data) {
+            document.getElementById('result').innerText = `No Open Graph data found for "${url}". Try a different URL.`;
+        } else {
+            // Create the results table
+            let html = `<table>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td>Title</td>
+                                <td>${data.title}</td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>${data.type}</td>
+                            </tr>
+                            <tr>
+                                <td>Image</td>
+                                <td><img src="${data.image}" alt="Open Graph Image" style="width:100px; height:auto;"></td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>${data.url}</td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td>${data.description}</td>
+                            </tr>
+                        </table>`;
+
+            document.getElementById('result').innerHTML = html;
+        }
+    }
+</script>
+
+</body>
+</html>

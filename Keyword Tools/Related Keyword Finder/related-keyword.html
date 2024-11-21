@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Related Keyword Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Related Keyword Finder</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <button onclick="findRelatedKeywords()">Find Related Keywords</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function findRelatedKeywords() {
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+
+        if (!keyword) {
+            document.getElementById('result').innerText = 'Please enter a keyword.';
+            return;
+        }
+
+        // Simulated related keywords data
+        const relatedKeywordsData = {
+            "seo": ["SEO tools", "SEO optimization", "SEO strategies", "SEO techniques", "SEO best practices"],
+            "marketing": ["digital marketing", "content marketing", "social media marketing", "email marketing", "influencer marketing"],
+            "javascript": ["JavaScript frameworks", "JavaScript libraries", "JavaScript best practices", "JavaScript tutorials", "JavaScript tips"],
+            "blogging": ["blogging tips", "blogging strategies", "blogging for beginners", "blogging platforms", "blogging ideas"],
+            "fitness": ["fitness tips", "fitness workouts", "fitness nutrition", "home fitness", "fitness programs"],
+        };
+
+        const relatedKeywords = relatedKeywordsData[keyword] || [`No related keywords found for "${keyword}". Try a different keyword.`];
+
+        // Display the results
+        document.getElementById('result').innerHTML = `<ul>${relatedKeywords.map(item => `<li>${item}</li>`).join('')}</ul>`;
+    }
+</script>
+
+</body>
+</html>

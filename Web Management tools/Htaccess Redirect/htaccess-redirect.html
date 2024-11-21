@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.htaccess Redirect Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .generator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            white-space: pre-wrap; /* Preserve whitespace for formatting */
+        }
+    </style>
+</head>
+<body>
+
+<div class="generator">
+    <h2>.htaccess Redirect Generator</h2>
+    <input type="text" id="sourceUrl" placeholder="Source URL (e.g., /old-page)" required>
+    <input type="text" id="destinationUrl" placeholder="Destination URL (e.g., /new-page)" required>
+    <button onclick="generateRedirect()">Generate Redirect</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function generateRedirect() {
+        const sourceUrl = document.getElementById('sourceUrl').value.trim();
+        const destinationUrl = document.getElementById('destinationUrl').value.trim();
+
+        if (!sourceUrl || !destinationUrl) {
+            document.getElementById('result').innerText = 'Please fill in both fields.';
+            return;
+        }
+
+        // Create the .htaccess redirect rule
+        const redirectRule = `Redirect 301 ${sourceUrl} ${destinationUrl}`;
+
+        // Display the generated rule
+        document.getElementById('result').innerText = redirectRule;
+    }
+</script>
+
+</body>
+</html>

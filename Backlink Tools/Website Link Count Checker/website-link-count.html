@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Link Count Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Website Link Count Checker</h2>
+    <input type="text" id="url" placeholder="Enter URL (e.g., http://example.com)">
+    <button onclick="checkLinkCount()">Check Link Count</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkLinkCount() {
+        const url = document.getElementById('url').value.trim();
+
+        if (!url) {
+            document.getElementById('result').innerText = 'Please enter a URL.';
+            return;
+        }
+
+        // Simulated link counts for demonstration
+        const linkCountData = {
+            "http://example.com": 35,
+            "http://mywebsite.com": 50,
+            "http://samplepage.com": 25,
+            "http://blogexample.com": 18,
+            "http://testsite.com": 42,
+        };
+
+        const linkCount = linkCountData[url] || null;
+
+        if (linkCount === null) {
+            document.getElementById('result').innerText = `No link count data found for "${url}". Try a different URL.`;
+        } else {
+            document.getElementById('result').innerText = `The URL "${url}" has ${linkCount} links.`;
+        }
+    }
+</script>
+
+</body>
+</html>

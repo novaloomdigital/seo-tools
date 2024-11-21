@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Sitemap Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>XML Sitemap Generator</h2>
+    <textarea id="urls" placeholder="Enter URLs (one per line)"></textarea>
+    <button onclick="generateSitemap()">Generate Sitemap</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function generateSitemap() {
+        const urls = document.getElementById('urls').value.split('\n').map(url => url.trim()).filter(url => url);
+        
+        if (urls.length === 0) {
+            document.getElementById('result').innerText = 'Please enter at least one URL.';
+            return;
+        }
+
+        let xmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+        xmlContent += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap-image.v1">\n`;
+
+        urls.forEach(url => {
+            xmlContent += `  <url>\n`;
+            xmlContent += `    <loc>${url}</loc>\n`;
+            xmlContent += `  </url>\n`;
+        });
+
+        xmlContent += `</urlset>`;
+
+        // Create a Blob and download the XML file
+        const blob = new Blob([xmlContent], { type: 'application/xml' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'sitemap.xml';
+        link.click();
+
+        document.getElementById('result').innerText = 'Sitemap generated! Downloading...';
+    }
+</script>
+
+</body>
+</html>

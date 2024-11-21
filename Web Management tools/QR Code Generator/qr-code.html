@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .generator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+        }
+        #qrcode {
+            margin-top: 15px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="generator">
+    <h2>QR Code Generator</h2>
+    <input type="text" id="inputText" placeholder="Enter text or URL here">
+    <button onclick="generateQRCode()">Generate QR Code</button>
+    <div class="result" id="result"></div>
+    <div id="qrcode"></div>
+</div>
+
+<script>
+    function generateQRCode() {
+        const inputText = document.getElementById('inputText').value.trim();
+
+        if (!inputText) {
+            document.getElementById('result').innerText = 'Please enter some text or URL.';
+            return;
+        }
+
+        // Clear previous QR code
+        document.getElementById('result').innerText = '';  // Clear previous message
+        $('#qrcode').empty(); // Clear previous QR code
+
+        // Generate QR code
+        $('#qrcode').qrcode({
+            text: inputText,
+            width: 200,
+            height: 200
+        });
+
+        // Provide feedback
+        document.getElementById('result').innerText = 'QR Code generated!';
+    }
+</script>
+
+</body>
+</html>

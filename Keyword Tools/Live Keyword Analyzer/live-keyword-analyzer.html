@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Keyword Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        .keyword-info {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Live Keyword Analyzer</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword" oninput="analyzeKeyword()">
+    <div class="result" id="result">
+        <div class="keyword-info" id="info"></div>
+    </div>
+</div>
+
+<script>
+    const commonKeywords = ["seo", "content", "marketing", "blogging", "digital", "growth", "strategy"];
+
+    function analyzeKeyword() {
+        const keyword = document.getElementById('keyword').value.trim();
+        const resultDiv = document.getElementById('result');
+        const infoDiv = document.getElementById('info');
+
+        if (keyword) {
+            const keywordLength = keyword.length;
+            const charactersInfo = `Length: ${keywordLength} character(s)`;
+
+            const foundKeywords = commonKeywords.filter(commonKeyword => 
+                keyword.toLowerCase().includes(commonKeyword)
+            );
+            const keywordMatchInfo = foundKeywords.length > 0 
+                ? `Contains common SEO keywords: ${foundKeywords.join(', ')}`
+                : "No common SEO keywords found.";
+
+            infoDiv.innerHTML = `${charactersInfo}<br>${keywordMatchInfo}`;
+            resultDiv.style.display = 'block';
+        } else {
+            resultDiv.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>

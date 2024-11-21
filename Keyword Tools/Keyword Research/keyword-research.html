@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Research Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Keyword Research Tool</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <button onclick="researchKeywords()">Research Keywords</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function researchKeywords() {
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+
+        if (!keyword) {
+            document.getElementById('result').innerText = 'Please enter a keyword.';
+            return;
+        }
+
+        // Simulated keyword research data
+        const keywordData = {
+            "seo": [
+                { keyword: "SEO tools", volume: 1000, competition: 0.7 },
+                { keyword: "SEO strategies", volume: 800, competition: 0.6 },
+                { keyword: "SEO optimization", volume: 600, competition: 0.5 },
+                { keyword: "SEO tutorials", volume: 500, competition: 0.4 },
+            ],
+            "marketing": [
+                { keyword: "digital marketing", volume: 1200, competition: 0.8 },
+                { keyword: "content marketing", volume: 900, competition: 0.6 },
+                { keyword: "email marketing", volume: 700, competition: 0.5 },
+                { keyword: "social media marketing", volume: 850, competition: 0.7 },
+            ],
+            "javascript": [
+                { keyword: "JavaScript frameworks", volume: 1100, competition: 0.6 },
+                { keyword: "JavaScript tutorials", volume: 950, competition: 0.5 },
+                { keyword: "JavaScript best practices", volume: 400, competition: 0.4 },
+                { keyword: "JavaScript libraries", volume: 650, competition: 0.3 },
+            ]
+        };
+
+        const resultData = keywordData[keyword] || [];
+
+        if (resultData.length === 0) {
+            document.getElementById('result').innerText = `No data found for "${keyword}". Try a different keyword.`;
+            return;
+        }
+
+        // Create the results table
+        let html = `<table>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Search Volume</th>
+                            <th>Competition</th>
+                        </tr>`;
+        
+        resultData.forEach(data => {
+            html += `<tr>
+                        <td>${data.keyword}</td>
+                        <td>${data.volume}</td>
+                        <td>${data.competition}</td>
+                     </tr>`;
+        });
+
+        html += `</table>`;
+        document.getElementById('result').innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

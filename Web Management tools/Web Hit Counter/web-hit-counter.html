@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Hit Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .counter {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="counter">
+    <h2>Website Hit Counter</h2>
+    <div class="result" id="hitCount">Hits: 0</div>
+    <button onclick="incrementCounter()">Hit This Page</button>
+</div>
+
+<script>
+    // Function to initialize or load the hit count from local storage
+    function loadHitCount() {
+        const count = localStorage.getItem('hitCount');
+        return count ? parseInt(count) : 0; // Default to 0 if not set
+    }
+
+    // Function to update the displayed hit count
+    function updateDisplay() {
+        const count = loadHitCount();
+        document.getElementById('hitCount').innerText = `Hits: ${count}`;
+    }
+
+    // Function to increment the hit count
+    function incrementCounter() {
+        let count = loadHitCount();
+        count += 1; // Increment count
+        localStorage.setItem('hitCount', count); // Store updated count
+        updateDisplay(); // Update display
+    }
+
+    // Load the hit count when the page is loaded
+    window.onload = updateDisplay;
+</script>
+
+</body>
+</html>

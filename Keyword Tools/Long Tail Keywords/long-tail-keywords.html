@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Tail Keyword Suggestion Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Long Tail Keyword Suggestion Tool</h2>
+    <input type="text" id="seedKeyword" placeholder="Enter seed keyword">
+    <button onclick="suggestLongTailKeywords()">Get Suggestions</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function suggestLongTailKeywords() {
+        const seedKeyword = document.getElementById('seedKeyword').value.trim().toLowerCase();
+
+        if (!seedKeyword) {
+            document.getElementById('result').innerText = 'Please enter a seed keyword.';
+            return;
+        }
+
+        // Simulated long-tail keyword suggestions
+        const longTailKeywordData = {
+            "seo": [
+                "best SEO practices for small businesses",
+                "how to improve SEO ranking for e-commerce",
+                "SEO tips for bloggers",
+                "local SEO strategies for restaurants",
+                "SEO tools for keyword research"
+            ],
+            "marketing": [
+                "affordable digital marketing strategies",
+                "how to create a content marketing plan",
+                "social media marketing tips for beginners",
+                "email marketing best practices for small businesses",
+                "influencer marketing strategies for brands"
+            ],
+            "javascript": [
+                "JavaScript tutorials for beginners",
+                "advanced JavaScript techniques for developers",
+                "JavaScript frameworks for web development",
+                "how to optimize JavaScript performance",
+                "JavaScript best practices for clean code"
+            ],
+            "blogging": [
+                "how to start a successful blog",
+                "blogging tips for increasing traffic",
+                "content ideas for your blog",
+                "how to monetize your blog effectively",
+                "blogging platforms comparison 2023"
+            ],
+            "fitness": [
+                "home fitness routines for beginners",
+                "best fitness apps for tracking progress",
+                "nutrition tips for fitness enthusiasts",
+                "how to stay motivated in fitness",
+                "fitness goals for weight loss"
+            ],
+        };
+
+        const suggestions = longTailKeywordData[seedKeyword] || [`No long-tail keyword suggestions found for "${seedKeyword}". Try a different keyword.`];
+
+        // Display the results
+        document.getElementById('result').innerHTML = `<ul>${suggestions.map(item => `<li>${item}</li>`).join('')}</ul>`;
+    }
+</script>
+
+</body>
+</html>

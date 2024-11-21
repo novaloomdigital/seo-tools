@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Price Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 8px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>Link Price Calculator</h2>
+    <input type="number" id="pricePerLink" placeholder="Price per link (USD)" step="0.01">
+    <input type="number" id="numberOfLinks" placeholder="Number of links" min="1">
+    <button onclick="calculateTotalPrice()">Calculate Total Price</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calculateTotalPrice() {
+        const pricePerLink = parseFloat(document.getElementById('pricePerLink').value);
+        const numberOfLinks = parseInt(document.getElementById('numberOfLinks').value);
+
+        if (isNaN(pricePerLink) || pricePerLink <= 0) {
+            document.getElementById('result').innerText = 'Please enter a valid price per link.';
+            return;
+        }
+
+        if (isNaN(numberOfLinks) || numberOfLinks < 1) {
+            document.getElementById('result').innerText = 'Please enter a valid number of links.';
+            return;
+        }
+
+        const totalPrice = pricePerLink * numberOfLinks;
+
+        document.getElementById('result').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>

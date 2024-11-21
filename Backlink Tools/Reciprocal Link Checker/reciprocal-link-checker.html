@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reciprocal Link Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Reciprocal Link Checker</h2>
+    <input type="text" id="url1" placeholder="Enter first URL (e.g., http://example1.com)">
+    <input type="text" id="url2" placeholder="Enter second URL (e.g., http://example2.com)">
+    <button onclick="checkReciprocalLinks()">Check Links</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkReciprocalLinks() {
+        const url1 = document.getElementById('url1').value.trim();
+        const url2 = document.getElementById('url2').value.trim();
+
+        if (!url1 || !url2) {
+            document.getElementById('result').innerText = 'Please enter both URLs.';
+            return;
+        }
+
+        // Simulated reciprocal link data
+        const reciprocalLinks = {
+            "http://example1.com": ["http://example2.com", "http://example3.com"],
+            "http://example2.com": ["http://example1.com"],
+            "http://example3.com": ["http://example4.com"]
+        };
+
+        const linksForUrl1 = reciprocalLinks[url1] || [];
+        const linksForUrl2 = reciprocalLinks[url2] || [];
+
+        const isReciprocal = linksForUrl1.includes(url2) && linksForUrl2.includes(url1);
+
+        if (isReciprocal) {
+            document.getElementById('result').innerText = `Yes, "${url1}" and "${url2}" are reciprocal links.`;
+        } else {
+            document.getElementById('result').innerText = `No, "${url1}" and "${url2}" are not reciprocal links.`;
+        }
+    }
+</script>
+
+</body>
+</html>

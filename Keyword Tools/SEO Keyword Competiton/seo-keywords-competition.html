@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Keyword Competition Analysis Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>SEO Keyword Competition Analysis Tool</h2>
+    <input type="text" id="keyword" placeholder="Enter keyword">
+    <button onclick="analyzeKeyword()">Analyze Keyword</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function analyzeKeyword() {
+        const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+
+        if (!keyword) {
+            document.getElementById('result').innerText = 'Please enter a keyword.';
+            return;
+        }
+
+        // Simulated keyword competition data
+        const keywordCompetitionData = {
+            "seo": { volume: 1000, competition: 0.8, suggestedBid: 2.50 },
+            "digital marketing": { volume: 1200, competition: 0.75, suggestedBid: 3.00 },
+            "content marketing": { volume: 800, competition: 0.65, suggestedBid: 1.80 },
+            "fitness": { volume: 950, competition: 0.70, suggestedBid: 2.20 },
+            "blogging": { volume: 650, competition: 0.60, suggestedBid: 1.50 },
+        };
+
+        const data = keywordCompetitionData[keyword] || null;
+
+        if (!data) {
+            document.getElementById('result').innerText = `No competition data found for "${keyword}". Try a different keyword.`;
+            return;
+        }
+
+        // Create the results table
+        let html = `<table>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Search Volume</th>
+                            <th>Competition</th>
+                            <th>Suggested Bid</th>
+                        </tr>
+                        <tr>
+                            <td>${keyword}</td>
+                            <td>${data.volume}</td>
+                            <td>${(data.competition * 100).toFixed(2)}%</td>
+                            <td>$${data.suggestedBid.toFixed(2)}</td>
+                        </tr>
+                    </table>`;
+
+        document.getElementById('result').innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Graph Meta Tag Maker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            white-space: pre-wrap; /* Preserve whitespace for formatting */
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Open Graph Meta Tag Maker</h2>
+    <input type="text" id="ogTitle" placeholder="Title (e.g., My Website)">
+    <input type="text" id="ogType" placeholder="Type (e.g., website)">
+    <input type="text" id="ogImage" placeholder="Image URL (e.g., http://example.com/image.jpg)">
+    <input type="text" id="ogUrl" placeholder="Page URL (e.g., http://example.com/page)">
+    <input type="text" id="ogDescription" placeholder="Description (e.g., This is my website)">
+    <button onclick="generateOpenGraphTags()">Generate Open Graph Tags</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function generateOpenGraphTags() {
+        const title = document.getElementById('ogTitle').value.trim();
+        const type = document.getElementById('ogType').value.trim();
+        const image = document.getElementById('ogImage').value.trim();
+        const url = document.getElementById('ogUrl').value.trim();
+        const description = document.getElementById('ogDescription').value.trim();
+
+        // Check if all required fields are filled
+        if (!title || !type || !image || !url || !description) {
+            document.getElementById('result').innerText = 'Please fill in all fields.';
+            return;
+        }
+
+        // Generate Open Graph tags
+        const ogTags = `
+<meta property="og:title" content="${title}" />
+<meta property="og:type" content="${type}" />
+<meta property="og:image" content="${image}" />
+<meta property="og:url" content="${url}" />
+<meta property="og:description" content="${description}" />
+        `.trim();
+
+        // Display the generated tags
+        document.getElementById('result').innerText = ogTags;
+    }
+</script>
+
+</body>
+</html>

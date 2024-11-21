@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broken Backlink Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tool {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool">
+    <h2>Broken Backlink Checker</h2>
+    <input type="text" id="url" placeholder="Enter URL (e.g., http://example.com)">
+    <button onclick="checkBrokenBacklinks()">Check Backlinks</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkBrokenBacklinks() {
+        const url = document.getElementById('url').value.trim();
+
+        if (!url) {
+            document.getElementById('result').innerText = 'Please enter a URL.';
+            return;
+        }
+
+        // Simulated broken backlink data
+        const brokenBacklinkData = {
+            "http://example.com": [
+                "http://example.com/broken-backlink-1",
+                "http://example.com/broken-backlink-2",
+                "http://example.com/broken-backlink-3",
+            ],
+            "http://mywebsite.com": [],
+            "http://samplepage.com": [
+                "http://samplepage.com/broken-backlink-1"
+            ],
+            "http://blogexample.com": [
+                "http://blogexample.com/broken-backlink-1",
+                "http://blogexample.com/broken-backlink-2"
+            ],
+            "http://testsite.com": [],
+        };
+
+        const brokenLinks = brokenBacklinkData[url] || null;
+
+        if (brokenLinks === null) {
+            document.getElementById('result').innerText = `No data found for "${url}". Try a different URL.`;
+        } else if (brokenLinks.length === 0) {
+            document.getElementById('result').innerText = `No broken backlinks found for "${url}".`;
+        } else {
+            // Display broken backlinks
+            let html = `Broken backlinks found for "${url}":<ul>`;
+            brokenLinks.forEach(link => {
+                html += `<li>${link}</li>`;
+            });
+            html += `</ul>`;
+            document.getElementById('result').innerHTML = html;
+        }
+    }
+</script>
+
+</body>
+</html>
