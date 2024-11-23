@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Minifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Minifier</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your CSS code here..."></textarea><br>
+    <button id="minifyBtn">Minify CSS</button>
+    <h2>Minified Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('minifyBtn').addEventListener('click', function() {
+            const inputCSS = document.getElementById('input').value;
+            const minifiedCSS = inputCSS
+                .replace(/\s*{\s*/g, '{') // Remove spaces before and after {
+                .replace(/\s*:\s*/g, ':') // Remove spaces before and after :
+                .replace(/\s*,\s*/g, ',') // Remove spaces before and after ,
+                .replace(/\s*;\s*/g, ';') // Remove spaces before and after ;
+                .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                .trim(); // Trim leading and trailing spaces
+            document.getElementById('output').textContent = minifiedCSS;
+        });
+    </script>
+</body>
+</html>

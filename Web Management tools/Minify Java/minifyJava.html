@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Minifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Java Minifier</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your Java code here..."></textarea><br>
+    <button id="minifyBtn">Minify Java</button>
+    <h2>Minified Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('minifyBtn').addEventListener('click', function() {
+            const inputJava = document.getElementById('input').value;
+            const minifiedJava = inputJava
+                .replace(/\/\/.*$/gm, '') // Remove single line comments
+                .replace(/\/\*[\s\S]*?\*\//g, '') // Remove multi-line comments
+                .replace(/\s*([{}();:,+-])\s*/g, '$1') // Remove spaces around operators and braces
+                .replace(/>\s+</g, '><') // Remove spaces between tags
+                .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                .replace(/;\s+/g, ';') // Remove spaces after semicolons
+                .replace(/\s*=\s*/g, '=') // Remove spaces around equal signs
+                .trim(); // Trim leading and trailing spaces
+            document.getElementById('output').textContent = minifiedJava;
+        });
+    </script>
+</body>
+</html>

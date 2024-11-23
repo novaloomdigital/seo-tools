@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Virus Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .upload-container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            width: 300px;
+        }
+        #fileInput {
+            margin-top: 10px;
+        }
+        #scanButton {
+            margin-top: 15px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="upload-container">
+    <h2>Virus Scanner</h2>
+    <input type="file" id="fileInput">
+    <button id="scanButton">Scan File</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    document.getElementById('scanButton').addEventListener('click', function() {
+        const fileInput = document.getElementById('fileInput');
+        const resultDiv = document.getElementById('result');
+
+        if (fileInput.files.length === 0) {
+            resultDiv.textContent = 'Please select a file to scan.';
+            return;
+        }
+
+        // Simulated scanning process
+        resultDiv.textContent = 'Scanning...';
+
+        // Simulate scanning delay
+        setTimeout(() => {
+            // Simulated result (You can implement real scanning logic here)
+            const isInfected = Math.random() < 0.5; // Randomly set infected status
+
+            if (isInfected) {
+                resultDiv.textContent = 'Result: Infected! 🚫';
+                resultDiv.style.color = 'red';
+            } else {
+                resultDiv.textContent = 'Result: Clean! ✅';
+                resultDiv.style.color = 'green';
+            }
+
+        }, 2000); // Simulated delay of 2 seconds
+    });
+</script>
+
+</body>
+</html>

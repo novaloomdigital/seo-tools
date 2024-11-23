@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .downloader-form {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Video Downloader Tool</h1>
+<div class="downloader-form">
+    <input type="text" id="videoUrlInput" placeholder="Enter video URL" required>
+    <button id="downloadButton">Download Video</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    document.getElementById('downloadButton').addEventListener('click', function() {
+        const videoUrl = document.getElementById('videoUrlInput').value;
+        const resultDiv = document.getElementById('result');
+
+        // Simulate video download action
+        if (videoUrl) {
+            // Here you would typically send the URL to a backend service to handle the download
+            resultDiv.textContent = 'Preparing to download video from: ' + videoUrl;
+            resultDiv.style.color = 'green';
+
+            // Reset the input field
+            document.getElementById('videoUrlInput').value = '';
+        } else {
+            resultDiv.textContent = 'Please enter a valid video URL.';
+            resultDiv.style.color = 'red';
+        }
+    });
+</script>
+
+</body>
+</html>

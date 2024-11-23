@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter GIF Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #input {
+            width: 100%;
+            height: 30px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #download {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Twitter GIF Downloader</h1>
+    <input type="text" id="input" placeholder="Enter Twitter GIF URL">
+    <button id="download">Download GIF</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('download').addEventListener('click', function() {
+            const url = document.getElementById('input').value;
+            const gifUrl = getGifUrl(url);
+            if (gifUrl) {
+                downloadGif(gifUrl);
+            } else {
+                document.getElementById('output').textContent = 'Invalid URL or GIF not found.';
+            }
+        });
+
+        function getGifUrl(url) {
+            // This is a placeholder function. In a real application, you would extract the GIF URL from the tweet.
+            const regex = /https:\/\/twitter\.com\/[^\/]+\/status\/(\d+)/;
+            const match = url.match(regex);
+            if (match) {
+                // In a real scenario, you would retrieve the actual GIF URL here.
+                return `https://example.com/path/to/gif/${match[1]}.gif`; // Placeholder GIF URL
+            }
+            return null;
+        }
+
+        function downloadGif(url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'video.gif'; // Default file name
+            a.click();
+            document.getElementById('output').textContent = 'Downloading GIF...';
+        }
+    </script>
+</body>
+</html>

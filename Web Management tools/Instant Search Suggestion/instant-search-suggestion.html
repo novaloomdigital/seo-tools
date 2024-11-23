@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Search Suggestion Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .suggestions {
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <div class="suggestions" id="suggestionsBox"></div>
+</div>
+
+<script>
+    const suggestions = ['Apple', 'Banana', 'Orange', 'Mango', 'Grapes', 'Pineapple', 'Strawberry', 'Blueberry'];
+
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsBox = document.getElementById('suggestionsBox');
+
+    searchInput.addEventListener('input', function() {
+        const input = searchInput.value.toLowerCase();
+        suggestionsBox.innerHTML = '';
+        if (input) {
+            const filteredSuggestions = suggestions.filter(item => item.toLowerCase().includes(input));
+            filteredSuggestions.forEach(suggestion => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.textContent = suggestion;
+                suggestionItem.addEventListener('click', function() {
+                    searchInput.value = suggestion;
+                    suggestionsBox.innerHTML = '';
+                });
+                suggestionsBox.appendChild(suggestionItem);
+            });
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.search-container')) {
+            suggestionsBox.innerHTML = '';
+        }
+    });
+</script>
+
+</body>
+</html>

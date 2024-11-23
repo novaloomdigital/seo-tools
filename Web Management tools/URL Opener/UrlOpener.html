@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Opener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Opener</h1>
+    <input type="text" id="urlInput" placeholder="Enter your URL here..." style="width: 300px;">
+    <button id="openUrlBtn">Open URL</button>
+
+    <script>
+        document.getElementById('openUrlBtn').addEventListener('click', function() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (url) {
+                // Check if the URL starts with http or https
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    alert('Please enter a valid URL starting with http:// or https://');
+                    return;
+                }
+                // Open the URL in a new tab
+                window.open(url, '_blank');
+            } else {
+                alert('Please enter a URL.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is My Browser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #info {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>What Is My Browser?</h1>
+    <button id="checkBrowser">Get Browser Info</button>
+    <div id="info"></div>
+
+    <script>
+        document.getElementById('checkBrowser').addEventListener('click', function() {
+            const userAgent = navigator.userAgent;
+            const browserInfo = getBrowserInfo(userAgent);
+            document.getElementById('info').innerHTML = `
+                <strong>User Agent:</strong> ${userAgent}<br>
+                <strong>Browser Name:</strong> ${browserInfo.name}<br>
+                <strong>Browser Version:</strong> ${browserInfo.version}<br>
+            `;
+        });
+
+        function getBrowserInfo(ua) {
+            let tem;
+            const match = ua.match(/(chrome|firefox|safari|edge|msie|trident)/i);
+            const versionMatch = ua.match(/(?:version|chrome|firefox|safari|edge|msie|rv):\s*([\d.]+)/i);
+            const name = match ? match[1] : "Unknown Browser";
+            const version = versionMatch ? versionMatch[1] : "Unknown Version";
+            return { name, version };
+        }
+    </script>
+</body>
+</html>

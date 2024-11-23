@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>robots.txt Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>robots.txt Generator</h1>
+    <textarea id="userAgent" rows="3" cols="50" placeholder="User-agent (e.g., * or Googlebot)"></textarea><br>
+    <textarea id="disallow" rows="3" cols="50" placeholder="Disallow path (e.g., /private/ or leave blank for none)"></textarea><br>
+    <textarea id="allow" rows="3" cols="50" placeholder="Allow path (e.g., /public/)"></textarea><br>
+    <button id="generateBtn">Generate robots.txt</button>
+    <h2>Generated Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const userAgent = document.getElementById('userAgent').value.trim();
+            const disallow = document.getElementById('disallow').value.trim();
+            const allow = document.getElementById('allow').value.trim();
+
+            let output = '';
+
+            if (userAgent) {
+                output += `User-agent: ${userAgent}\n`;
+            }
+            if (disallow) {
+                output += `Disallow: ${disallow}\n`;
+            }
+            if (allow) {
+                output += `Allow: ${allow}\n`;
+            }
+
+            document.getElementById('output').textContent = output || 'No directives provided.';
+        });
+    </script>
+</body>
+</html>

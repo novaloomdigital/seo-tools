@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Checker</h1>
+    <h2>Enter URL or HTML Code:</h2>
+    <textarea id="inputUrlOrHtml" rows="10" cols="50" placeholder="Paste your URL or HTML code here..."></textarea><br>
+    <button id="checkBtn">Check Website</button>
+    <h2>Validation Results:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('checkBtn').addEventListener('click', function() {
+            const input = document.getElementById('inputUrlOrHtml').value.trim();
+            const isUrl = input.startsWith('http');
+
+            if (isUrl) {
+                // Validate URL
+                validateUrl(input);
+            } else {
+                // Validate HTML
+                validateHtml(input);
+            }
+        });
+
+        function validateUrl(url) {
+            fetch(`https://validator.w3.org/nu/?out=json&url=${encodeURIComponent(url)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const output = document.getElementById('output');
+                    output.innerHTML = '';
+                    data.results.messages.forEach(message => {
+                        output.innerHTML += `<p>${message.type}: ${message.message}</p>`;
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('output').textContent = 'Error validating URL: ' + error.message;
+                });
+        }
+
+        function validateHtml(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const output = document.getElementById('output');
+
+            // Basic HTML validation
+            let errors = [];
+            if (!doc.documentElement) {
+                errors.push('No HTML document element found.');
+            }
+            if (doc.querySelectorAll('body').length === 0) {
+                errors.push('No <body> element found.');
+            }
+            if (doc.querySelectorAll('head').length === 0) {
+                errors.push('No <head> element found.');
+            }
+
+            // Check for missing or unbalanced tags
+            const allTags = doc.querySelectorAll('*');
+            allTags.forEach(tag => {
+                if (tag.tagName === tag.tagName.toUpperCase() && !tag.innerHTML.includes('</' + tag.tagName + '>')) {
+                    errors.push(`Unbalanced tag: <${tag.tagName}>`);
+                }
+            });
+
+            // Display results
+            output.innerHTML = '';
+            if (errors.length > 0) {
+                errors.forEach(error => {
+                    output.innerHTML += `<p>Error: ${error}</p>`;
+                });
+            } else {
+                output.textContent = 'HTML appears to be valid.';
+            }
+        }
+    </script>
+</body>
+</html>

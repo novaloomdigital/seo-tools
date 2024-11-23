@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Minifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Python Minifier</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your Python code here..."></textarea><br>
+    <button id="minifyBtn">Minify Python</button>
+    <h2>Minified Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('minifyBtn').addEventListener('click', function() {
+            const inputPython = document.getElementById('input').value;
+            const minifiedPython = inputPython
+                .replace(/#.*$/gm, '') // Remove single line comments
+                .replace(/'''.*?'''/gs, '') // Remove multi-line comments (triple single quotes)
+                .replace(/""".*?"""/gs, '') // Remove multi-line comments (triple double quotes)
+                .replace(/\s*([{}();:,+-])\s*/g, '$1') // Remove spaces around operators and braces
+                .replace(/(\n\s*)+/g, '\n') // Remove extra new lines
+                .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                .trim(); // Trim leading and trailing spaces
+            document.getElementById('output').textContent = minifiedPython;
+        });
+    </script>
+</body>
+</html>

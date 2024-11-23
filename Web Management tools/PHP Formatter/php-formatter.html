@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>PHP Formatter</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your PHP code here..."></textarea><br>
+    <button id="formatBtn">Format PHP Code</button>
+    <h2>Formatted Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('formatBtn').addEventListener('click', function() {
+            const inputPHP = document.getElementById('input').value;
+            const formattedPHP = formatPHP(inputPHP);
+            document.getElementById('output').textContent = formattedPHP;
+        });
+
+        function formatPHP(code) {
+            // Simple formatter logic
+            return code
+                .replace(/\s*{\s*/g, ' { ') // Format brace
+                .replace(/\s*}\s*/g, ' } ') // Format closing brace
+                .replace(/;\s*/g, ';') // Remove spaces after semicolons
+                .replace(/(\n\s*)+/g, '\n') // Remove extra new lines
+                .replace(/(\s*\n\s*)+/g, '\n') // Normalize new lines
+                .replace(/(\s*if\s*$$)/g, 'if (') // Format if conditions
+                .replace(/(\s*for\s*$$)/g, 'for (') // Format for loops
+                .replace(/(\s*while\s*$$)/g, 'while (') // Format while loops
+                .replace(/(\s*foreach\s*$$)/g, 'foreach (') // Format foreach loops
+                .replace(/(\s*function\s*$$)/g, 'function (') // Format function definitions
+                .trim(); // Trim leading and trailing spaces
+        }
+    </script>
+</body>
+</html>

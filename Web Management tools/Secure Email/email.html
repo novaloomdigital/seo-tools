@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Email Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .email-form {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Secure Email Tool</h1>
+<div class="email-form">
+    <input type="email" id="recipientEmail" placeholder="Recipient Email" required>
+    <input type="text" id="subject" placeholder="Subject" required>
+    <textarea id="message" placeholder="Enter your message here..." rows="5" required></textarea>
+    <button id="sendEmailButton">Send Secure Email</button>
+    <div id="result" style="margin-top: 20px;"></div>
+</div>
+
+<script>
+    document.getElementById('sendEmailButton').addEventListener('click', function() {
+        const recipientEmail = document.getElementById('recipientEmail').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+        const resultDiv = document.getElementById('result');
+
+        // Simulate secure sending of email
+        if (recipientEmail && subject && message) {
+            // Here you would typically send the email via an API call to the backend
+            // For demonstration, we will just simulate a successful send
+            resultDiv.textContent = 'Email sent securely to ' + recipientEmail + '!';
+            resultDiv.style.color = 'green';
+
+            // Reset the form
+            document.getElementById('recipientEmail').value = '';
+            document.getElementById('subject').value = '';
+            document.getElementById('message').value = '';
+        } else {
+            resultDiv.textContent = 'Please fill in all fields.';
+            resultDiv.style.color = 'red';
+        }
+    });
+</script>
+
+</body>
+</html>

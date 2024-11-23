@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Video Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #input {
+            width: 100%;
+            height: 30px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #download {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Twitter Video Downloader</h1>
+    <input type="text" id="input" placeholder="Enter Twitter video URL">
+    <button id="download">Download Video</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('download').addEventListener('click', function() {
+            const url = document.getElementById('input').value;
+            const videoId = getVideoId(url);
+            const videoUrl = getVideoUrl(videoId);
+            downloadVideo(videoUrl);
+        });
+
+        function getVideoId(url) {
+            const regex = /https:\/\/twitter\.com\/[^\/]+\/status\/(\d+)/;
+            const match = url.match(regex);
+            return match[1];
+        }
+
+        function getVideoUrl(videoId) {
+            const url = `https://twitter.com/i/videos/tweet/${videoId}`;
+            return url;
+        }
+
+        function downloadVideo(url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'video.mp4';
+            a.click();
+        }
+    </script>
+</body>
+</html>

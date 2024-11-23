@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML Formatter</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your HTML code here..."></textarea><br>
+    <button id="formatBtn">Format HTML Code</button>
+    <h2>Formatted Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('formatBtn').addEventListener('click', function() {
+            const inputHTML = document.getElementById('input').value;
+            const formattedHTML = formatHTML(inputHTML);
+            document.getElementById('output').textContent = formattedHTML;
+        });
+
+        function formatHTML(html) {
+            // Create a temporary DOM element to utilize the browser's HTML parsing
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            // Function to recursively format the HTML
+            function formatNode(node, level = 0) {
+                let result = '';
+                const indent = '  '.repeat(level); // Two spaces per indentation level
+
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const trimmedText = node.textContent.trim();
+                    if (trimmedText) {
+                        result += `${indent}${trimmedText}\n`;
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    result += `${indent}<${node.nodeName.toLowerCase()}`;
+
+                    // Add attributes
+                    Array.from(node.attributes).forEach(attr => {
+                        result += ` ${attr.name}="${attr.value}"`;
+                    });
+
+                    result += '>\n';
+
+                    // Recursively format children
+                    Array.from(node.childNodes).forEach(child => {
+                        result += formatNode(child, level + 1);
+                    });
+
+                    result += `${indent}</${node.nodeName.toLowerCase()}>\n`;
+                }
+
+                return result;
+            }
+
+            let formatted = '';
+            Array.from(tempDiv.childNodes).forEach(child => {
+                formatted += formatNode(child);
+            });
+
+            return formatted.trim(); // Return formatted HTML without extra spaces
+        }
+    </script>
+</body>
+</html>

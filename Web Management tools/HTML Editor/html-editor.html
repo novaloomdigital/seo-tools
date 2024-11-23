@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #editor {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        #preview {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 200px;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML Editor</h1>
+    <textarea id="editor" placeholder="Write your HTML code here..."></textarea><br>
+    <button id="updateBtn">Update Preview</button>
+    <h2>Live Preview:</h2>
+    <iframe id="preview"></iframe>
+
+    <script>
+        document.getElementById('updateBtn').addEventListener('click', function() {
+            const htmlCode = document.getElementById('editor').value;
+            const previewFrame = document.getElementById('preview');
+            const preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            preview.open();
+            preview.write(htmlCode);
+            preview.close();
+        });
+    </script>
+</body>
+</html>

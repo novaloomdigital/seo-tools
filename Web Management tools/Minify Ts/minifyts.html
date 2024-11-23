@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Minifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>TypeScript Minifier</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your TypeScript code here..."></textarea><br>
+    <button id="minifyBtn">Minify TypeScript</button>
+    <h2>Minified Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('minifyBtn').addEventListener('click', function() {
+            const inputTS = document.getElementById('input').value;
+            const minifiedTS = inputTS
+                .replace(/\/\/.*$/gm, '') // Remove single line comments
+                .replace(/\/\*[\s\S]*?\*\//g, '') // Remove multi-line comments
+                .replace(/\s*([{}();:,+-])\s*/g, '$1') // Remove spaces around operators and braces
+                .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                .replace(/;+/g, ';') // Remove extra semicolons
+                .replace(/\s*=\s*/g, '=') // Remove spaces around equal signs
+                .replace(/\s*=>\s*/g, '=>') // Remove spaces around arrow functions
+                .trim(); // Trim leading and trailing spaces
+            document.getElementById('output').textContent = minifiedTS;
+        });
+    </script>
+</body>
+</html>

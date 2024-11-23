@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Screenshot Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        #urlInput {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #generateButton {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #screenshotFrame {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Website Screenshot Generator</h1>
+<div class="input-container">
+    <input type="text" id="urlInput" placeholder="Enter website URL">
+    <button id="generateButton">Generate Screenshot</button>
+</div>
+<iframe id="screenshotFrame" src="" frameborder="0"></iframe>
+
+<script>
+    document.getElementById('generateButton').addEventListener('click', function() {
+        const urlInput = document.getElementById('urlInput');
+        const screenshotFrame = document.getElementById('screenshotFrame');
+        
+        // Get the URL and add http:// if not present
+        let url = urlInput.value.trim();
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'http://' + url;
+        }
+
+        // Set the iframe to the entered URL
+        screenshotFrame.src = url;
+    });
+</script>
+
+</body>
+</html>

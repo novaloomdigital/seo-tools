@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #editor {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        #preview {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 300px;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML Viewer</h1>
+    <textarea id="editor" placeholder="Paste your HTML code here..."></textarea><br>
+    <button id="viewBtn">View HTML</button>
+    <h2>Rendered Output:</h2>
+    <iframe id="preview"></iframe>
+
+    <script>
+        document.getElementById('viewBtn').addEventListener('click', function() {
+            const htmlCode = document.getElementById('editor').value;
+            const previewFrame = document.getElementById('preview');
+            const preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            preview.open();
+            preview.write(htmlCode);
+            preview.close();
+        });
+    </script>
+</body>
+</html>

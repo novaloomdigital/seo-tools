@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>XML Formatter</h1>
+    <textarea id="input" rows="10" cols="50" placeholder="Paste your XML code here..."></textarea><br>
+    <button id="formatBtn">Format XML Code</button>
+    <h2>Formatted Output:</h2>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('formatBtn').addEventListener('click', function() {
+            const inputXML = document.getElementById('input').value;
+            const formattedXML = formatXML(inputXML);
+            document.getElementById('output').textContent = formattedXML;
+        });
+
+        function formatXML(xml) {
+            const formatted = xml.replace(/(>)(<)(\/*)/g, '$1\r\n$2$3') // Add new lines between elements
+                .replace(/\r\n/g, '\n') // Normalize new lines
+                .split('\n') // Split to array
+                .map(function(node) {
+                    const indent = node.match(/(^\s*)/)[0].length;
+                    return ' '.repeat(indent) + node.trim(); // Trim and indent
+                })
+                .join('\n') // Join back to string
+                .trim(); // Trim leading and trailing spaces
+
+            return formatted;
+        }
+    </script>
+</body>
+</html>
