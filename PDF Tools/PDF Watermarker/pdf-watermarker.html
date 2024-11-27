@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Watermark Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .watermark-tool {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="watermark-tool">
+    <h1>PDF Watermark Tool</h1>
+    <input type="file" id="file" accept="application/pdf">
+    <input type="text" id="watermark" placeholder="Enter watermark text">
+    <button onclick="addWatermark()">Add Watermark</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    async function addWatermark() {
+        const fileInput = document.getElementById('file');
+        const watermarkText = document.getElementById('watermark').value;
+
+        if (fileInput.files.length === 0) {
+            alert("Please select a PDF file to watermark.");
+            return;
+        }
+
+        if (!watermarkText) {
+            alert("Please enter watermark text.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = async () => {
+            const pdfDoc = await PDFLib.PDFDocument.load(reader.result);
+            const pages = pdfDoc.getPages();
+
+            pages.forEach(page => {
+                const { width, height } = page.getSize();
+                page.drawText(watermarkText, {
+                    x: width / 4,
+                    y: height / 2,
+                    size: 50,
+                    color: PDFLib.rgb(0.75, 0.75, 0.75), // Light gray color
+                    opacity: 0.5,
+                    rotate: PDFLib.degrees(-45),
+                });
+            });
+
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<a href="${url}" download="watermarked.pdf">Download Watermarked PDF</a>`;
+        };
+    }
+</script>
+
+</body>
+</html>

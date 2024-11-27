@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Lock Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .lock-tool {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="lock-tool">
+    <h1>PDF Lock Tool</h1>
+    <input type="file" id="file" accept="application/pdf">
+    <input type="password" id="password" placeholder="Enter a password to lock the PDF">
+    <button onclick="lockPDF()">Lock PDF</button>
+    <div class="result" id="result"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+    async function lockPDF() {
+        const fileInput = document.getElementById('file');
+        const password = document.getElementById('password').value;
+
+        if (fileInput.files.length === 0) {
+            alert("Please select a PDF file to lock.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = async () => {
+            const pdfDoc = await PDFLib.PDFDocument.load(reader.result);
+            
+            // Encrypt the PDF with the specified password
+            pdfDoc.encrypt({ ownerPassword: password, userPassword: password, permissions: { printing: 'highQuality' } });
+
+            // Save the locked PDF
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<a href="${url}" download="locked.pdf">Download Locked PDF</a>`;
+        };
+    }
+</script>
+
+</body>
+</html>

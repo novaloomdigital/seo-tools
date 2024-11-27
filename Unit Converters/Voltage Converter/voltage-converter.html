@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltage Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .converter {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="converter">
+    <h1>Voltage Converter</h1>
+    <input type="number" id="value" placeholder="Enter value" required>
+    
+    <select id="unitFrom">
+        <option value="v">Volts (V)</option>
+        <option value="mv">Millivolts (mV)</option>
+        <option value="kv">Kilovolts (kV)</option>
+        <option value="uv">Microvolts (µV)</option>
+    </select>
+
+    <select id="unitTo">
+        <option value="v">Volts (V)</option>
+        <option value="mv">Millivolts (mV)</option>
+        <option value="kv">Kilovolts (kV)</option>
+        <option value="uv">Microvolts (µV)</option>
+    </select>
+
+    <button onclick="convert()">Convert</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function convert() {
+        const value = parseFloat(document.getElementById('value').value);
+        const unitFrom = document.getElementById('unitFrom').value;
+        const unitTo = document.getElementById('unitTo').value;
+
+        const conversionRates = {
+            v: { v: 1, mv: 1000, kv: 0.001, uv: 1000000 },
+            mv: { v: 0.001, mv: 1, kv: 1e-6, uv: 1000 },
+            kv: { v: 1000, mv: 1000000, kv: 1, uv: 1000000000 },
+            uv: { v: 1e-6, mv: 0.001, kv: 1e-9, uv: 1 }
+        };
+
+        if (!isNaN(value)) {
+            const convertedValue = value * conversionRates[unitFrom][unitTo];
+            document.getElementById('result').innerText = `${value} ${unitFrom} is equal to ${convertedValue.toFixed(4)} ${unitTo}`;
+        } else {
+            document.getElementById('result').innerText = 'Please enter a valid number';
+        }
+    }
+</script>
+
+</body>
+</html>

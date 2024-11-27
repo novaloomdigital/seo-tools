@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .converter {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="converter">
+    <h1>Area Converter</h1>
+    <input type="number" id="value" placeholder="Enter value" required>
+    
+    <select id="unitFrom">
+        <option value="sqm">Square Meters (m²)</option>
+        <option value="sqkm">Square Kilometers (km²)</option>
+        <option value="acres">Acres</option>
+        <option value="sqft">Square Feet (ft²)</option>
+    </select>
+
+    <select id="unitTo">
+        <option value="sqm">Square Meters (m²)</option>
+        <option value="sqkm">Square Kilometers (km²)</option>
+        <option value="acres">Acres</option>
+        <option value="sqft">Square Feet (ft²)</option>
+    </select>
+
+    <button onclick="convert()">Convert</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function convert() {
+        const value = parseFloat(document.getElementById('value').value);
+        const unitFrom = document.getElementById('unitFrom').value;
+        const unitTo = document.getElementById('unitTo').value;
+
+        const conversionRates = {
+            sqm: { sqm: 1, sqkm: 0.000001, acres: 0.000247105, sqft: 10.7639 },
+            sqkm: { sqm: 1000000, sqkm: 1, acres: 247.105, sqft: 10763910.4 },
+            acres: { sqm: 4046.86, sqkm: 0.00404686, acres: 1, sqft: 43560 },
+            sqft: { sqm: 0.092903, sqkm: 9.2903e-8, acres: 0.0000229568, sqft: 1 }
+        };
+
+        if (!isNaN(value)) {
+            const convertedValue = value * conversionRates[unitFrom][unitTo];
+            document.getElementById('result').innerText = `${value} ${unitFrom} is equal to ${convertedValue.toFixed(4)} ${unitTo}`;
+        } else {
+            document.getElementById('result').innerText = 'Please enter a valid number';
+        }
+    }
+</script>
+
+</body>
+</html>
