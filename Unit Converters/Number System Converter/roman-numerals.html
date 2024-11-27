@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Numerals Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .converter {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 80%;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>Roman Numerals Converter</h2>
+        
+        <input type="number" id="number" placeholder="Enter a number (1-3999)">
+        <button onclick="convertToRoman()">Convert to Roman</button>
+        
+        <div id="result"></div>
+        
+        <input type="text" id="roman" placeholder="Enter Roman numeral">
+        <button onclick="convertToNumber()">Convert to Number</button>
+        
+        <div id="result2"></div>
+    </div>
+    <script>
+        function convertToRoman() {
+            const num = parseInt(document.getElementById('number').value);
+            if (num < 1 || num > 3999 || isNaN(num)) {
+                document.getElementById('result').textContent = 'Please enter a valid number between 1 and 3999.';
+                return;
+            }
+
+            const romanNumerals = [
+                { value: 1000, numeral: 'M' },
+                { value: 900, numeral: 'CM' },
+                { value: 500, numeral: 'D' },
+                { value: 400, numeral: 'CD' },
+                { value: 100, numeral: 'C' },
+                { value: 90, numeral: 'XC' },
+                { value: 50, numeral: 'L' },
+                { value: 40, numeral: 'XL' },
+                { value: 10, numeral: 'X' },
+                { value: 9, numeral: 'IX' },
+                { value: 5, numeral: 'V' },
+                { value: 4, numeral: 'IV' },
+                { value: 1, numeral: 'I' }
+            ];
+
+            let result = '';
+            let remaining = num;
+
+            for (const { value, numeral } of romanNumerals) {
+                while (remaining >= value) {
+                    result += numeral;
+                    remaining -= value;
+                }
+            }
+
+            document.getElementById('result').textContent = `Roman Numeral: ${result}`;
+        }
+
+        function convertToNumber() {
+            const roman = document.getElementById('roman').value.toUpperCase();
+            const romanMap = {
+                'I': 1,
+                'V': 5,
+                'X': 10,
+                'L': 50,
+                'C': 100,
+                'D': 500,
+                'M': 1000
+            };
+
+            let total = 0;
+            let prevValue = 0;
+
+            for (let char of roman) {
+                const value = romanMap[char];
+                if (!value) {
+                    document.getElementById('result2').textContent = 'Invalid Roman numeral.';
+                    return;
+                }
+
+                if (value > prevValue) {
+                    total += value - 2 * prevValue; // Subtract the previous value twice because we added it once earlier
+                } else {
+                    total += value;
+                }
+                prevValue = value;
+            }
+
+            document.getElementById('result2').textContent = `Number: ${total}`;
+        }
+    </script>
+</body>
+</html>

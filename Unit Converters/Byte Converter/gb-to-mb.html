@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GB to MB Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .converter {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>GB to MB Converter</h2>
+        <input type="number" id="gbInput" placeholder="Enter GB...">
+        <button onclick="convertToMB()">Convert to MB</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertToMB() {
+            const gbInput = document.getElementById('gbInput').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous result
+            resultDiv.textContent = '';
+
+            // Validate input
+            if (gbInput === '' || isNaN(gbInput) || gbInput < 0) {
+                resultDiv.textContent = 'Please enter a valid non-negative number of gigabytes.';
+                resultDiv.classList.add('error');
+                return;
+            }
+
+            // Convert gigabytes to megabytes
+            const gigabytes = parseFloat(gbInput);
+            const megabytes = gigabytes * 1024; // 1 GB = 1024 MB
+
+            resultDiv.textContent = megabytes.toFixed(2) + ' MB'; // Display result up to 2 decimal places
+            resultDiv.classList.remove('error');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Million to Crore</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+        *{
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h2{
+            margin-bottom: 1rem;
+        }
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 9rem;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+               margin: 0;
+              }
+        label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 2rem;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        input {
+            border: 1px solid #6314e6;
+            margin-top: 1rem;
+            outline: none;
+            border-radius: 4rem;
+            padding: 10px 35px;
+            font-size: 24px;
+            transition: all 0.3s ease-in-out;
+        }
+        input[type="submit"] {
+            border: none;
+            background-color: #6314e6;
+            color: white;
+            border-radius: 4rem;
+            padding: 10px 35px;
+            font-size: 24px;
+            transition: all 0.3s ease-in-out;
+        }
+        input[type="submit"]:hover {
+            cursor: pointer;
+            background-color: #4e0b9c;
+        }
+        p {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1">
+        <h2>Million to Crore</h2>
+        <label for="Initial">Millions: <input type="number" id="x" name="x" step="any"></label>
+        <input type="submit" value="Submit">
+        <p></p>
+    </form>
+    <script>
+        const form1 = document.querySelector('#form1');
+        form1.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const x = document.querySelector('#x').value;
+            let y = x / 10;
+            let result = `Conversion is: ${y} Crores`;
+            document.querySelector('p').textContent = result;
+        console.log(result);
+        });
+    </script>
+</body>
+</html>

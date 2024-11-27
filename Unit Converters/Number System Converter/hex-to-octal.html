@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex to Octal Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .converter {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>Hex to Octal Converter</h2>
+        <input type="text" id="hexInput" placeholder="Enter hex number...">
+        <button onclick="convertToOctal()">Convert to Octal</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertToOctal() {
+            const hexInput = document.getElementById('hexInput').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous result
+            resultDiv.textContent = '';
+
+            // Validate hex input
+            if (!/^[0-9A-Fa-f]+$/.test(hexInput)) {
+                resultDiv.textContent = 'Invalid hexadecimal input. Please enter a valid hex number.';
+                resultDiv.classList.add('error');
+                return;
+            }
+
+            // Convert hex to decimal, then to octal
+            const decimalNumber = parseInt(hexInput, 16); // Convert to decimal
+            const octalOutput = decimalNumber.toString(8); // Convert decimal to octal
+
+            resultDiv.textContent = octalOutput; // Display the result
+            resultDiv.classList.remove('error');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary to Roman Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .converter {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-family: monospace;
+            resize: none;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>Binary to Roman Converter</h2>
+        <textarea id="binaryInput" placeholder="Enter binary here..."></textarea>
+        <button onclick="convertToRoman()">Convert to Roman</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertToRoman() {
+            const binaryInput = document.getElementById('binaryInput').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous result
+            resultDiv.textContent = '';
+
+            // Validate binary input
+            if (!/^[01\s]+$/.test(binaryInput)) {
+                resultDiv.textContent = 'Invalid binary input. Please enter a valid binary string.';
+                resultDiv.classList.add('error');
+                return;
+            }
+
+            // Convert binary to decimal
+            const decimalNumber = parseInt(binaryInput.replace(/\s+/g, ''), 2); // Remove spaces and convert to decimal
+
+            // Convert decimal to Roman numerals
+            const romanNumeral = decimalToRoman(decimalNumber);
+            resultDiv.textContent = romanNumeral; // Display the result
+            resultDiv.classList.remove('error');
+        }
+
+        function decimalToRoman(num) {
+            if (num < 1 || num > 3999) return 'Input must be between 1 and 3999.';
+            const romanNumerals = [
+                { value: 1000, symbol: 'M' },
+                { value: 900, symbol: 'CM' },
+                { value: 500, symbol: 'D' },
+                { value: 400, symbol: 'CD' },
+                { value: 100, symbol: 'C' },
+                { value: 90, symbol: 'XC' },
+                { value: 50, symbol: 'L' },
+                { value: 40, symbol: 'XL' },
+                { value: 10, symbol: 'X' },
+                { value: 9, symbol: 'IX' },
+                { value: 5, symbol: 'V' },
+                { value: 4, symbol: 'IV' },
+                { value: 1, symbol: 'I' },
+            ];
+
+            let result = '';
+            for (const { value, symbol } of romanNumerals) {
+                while (num >= value) {
+                    result += symbol;
+                    num -= value;
+                }
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
